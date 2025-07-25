@@ -54,4 +54,4 @@ def create_database():
     conn.close()
 
 
-    print("Database created succesfully/n")
+    #print("Database created succesfully/n")   ----> COULD NOT SEE ANY OUTPUT IN TERMINAL
