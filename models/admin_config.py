@@ -18,7 +18,7 @@ def config_admin():
     admin_password = 'admin'
 
     curr.execute('''INSERT OR IGNORE INTO ADMIN 
-                 (username,password) VALUES (?,?);''',(admin_username,admin_password)) #Avoids redundancy
+                 (username,password) VALUES (?,?);''',(admin_username,admin_password))  #Avoids redundancy
     
     conn.commit()
     conn.close()
