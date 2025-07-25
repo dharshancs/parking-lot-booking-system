@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% block title %}User Registration{% endblock %}
+
+
+{% block content %}
+<div class="col-md-6 offset-md-3">
+    <h2>User Registration</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="user_name" name="user_name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="user_email" name="user_email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="password1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="user_password" name="user_password" required>
+        </div>
+        <div class="mb-3">
+            <label for="password2" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="user_confirm_password" name="user_confirm_password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+{% endblock %}
