@@ -61,7 +61,7 @@ def user_login():
             session['id'] = user['id']
             session['username'] = user['email']
             session['is_admin'] = False
-            return redirect(url_for('base.index'))
+            return redirect(url_for('user.user_home'))
     return render_template('users/user_login.html')
 
 @u_view.route('/admin/login',methods=['POST','GET'])
