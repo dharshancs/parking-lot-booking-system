@@ -1,15 +1,15 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-import sqlite3
+from .__init__ import conn_database
 
 
-u_view = Blueprint('user',__name__)
+u_view = Blueprint('base',__name__)
 
-def conn_database():  #to connect to database for login and registration
-    conection = sqlite3.connect('Parking.db')
-    conection.row_factory = sqlite3.Row      #to convert tuple form to dictionary form
-    return conection
 
+
+@u_view.route('/')
+def index():
+    return render_template('index.html')
 
 @u_view.route('/register', methods=['POST','GET'])
 def user_register():
@@ -25,7 +25,7 @@ def user_register():
         if not(password == confirm_password):
             #flash message to be imserted
             conn.close()
-            return redirect(url_for('user.user_register'))
+            return redirect(url_for('base.user_register'))
         
         curr.execute('SELECT id from users WHERE email = ?',(email,))
         existing_user = curr.fetchone()
@@ -33,13 +33,13 @@ def user_register():
         if existing_user:
             #flash message to be imserted
             conn.close()
-            return redirect(url_for('user.user_login'))
+            return redirect(url_for('base.user_login'))
         
         curr.execute('INSERT INTO USERS (name,email,password) VALUES (?,?,?)',(name,email,generate_password_hash(password)))
         conn.commit()
         conn.close()
 
-        return redirect(url_for('user.user_login'))
+        return redirect(url_for('base.user_login'))
     return render_template('users/user_register.html')
 
 @u_view.route('/login',methods=['POST','GET'])
@@ -58,5 +58,31 @@ def user_login():
         #Add check for wrong password or no user
 
         if user and check_password_hash(user['password'],password):
+            session['id'] = user['id']
+            session['username'] = user['email']
+            session['is_admin'] = False
             return redirect(url_for('base.index'))
     return render_template('users/user_login.html')
+
+@u_view.route('/admin/login',methods=['POST','GET'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['admin_username']
+        password = request.form['admin_password']
+
+        conn = conn_database()
+        curr = conn.cursor()
+
+        curr.execute('SELECT * FROM ADMIN WHERE username = ?',(username,))
+        admin = curr.fetchone()
+        if not admin:
+            return redirect(url_for('base.index'))
+
+        conn.close()
+
+        if username == admin['username'] and password == admin['password']:
+            session['id'] = admin['id']
+            session['username'] = admin['username']
+            session['is_admin'] = True
+            return redirect(url_for('admin.admin_home'))
+    return render_template('admin/admin_login.html')
