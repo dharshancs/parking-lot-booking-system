@@ -1,0 +1,40 @@
+{% extends 'users/user_base.html' %}
+{% block title %} Parking App - User Profile {% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center">Edit User Profile</h2>
+        
+        <form method="POST" >
+
+            
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">Email - Cannot be changed</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="text" class="form-control" id="password" name="password"  >
+            </div>
+            
+
+            
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" name="address" rows="3">{{ user.address }}</textarea>
+            </div>
+
+           <div class="mb-3">
+                <label for="pincode" class="form-label">Pincode</label>
+                <input type="text" class="form-control" id="pincode" name="pincode" value="{{ user.pincode }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+{% endblock %}
