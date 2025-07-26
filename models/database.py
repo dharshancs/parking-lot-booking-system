@@ -8,8 +8,8 @@ def create_database():
     curr.execute('''
                 CREATE TABLE IF NOT EXISTS USERS(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT NOT NULL UNIQUE,               
                 name TEXT NOT NULL,
-                email TEXT NOT NULL UNIQUE,
                 address TEXT,
                 pincode INTEGER,
                 password TEXT NOT NULL
