@@ -10,9 +10,10 @@ def initialize_table():
     admin_password = "admin"
 
 
-    curr.execute('''INSERT OR IGNORE INTO ADMIN(username,password) VALUES(?,?);''',(admin_username,admin_password)) #insert admin cred into table and ignore if already exists
+    curr.execute('''INSERT OR REPLACE INTO ADMIN(username,password) VALUES(?,?);''',(admin_username,admin_password)) #insert admin cred into table and ignore if already exists
 
     conn.commit()
     conn.close()
 
     #print("Admin credentials added into tabke /n")
+    
