@@ -1,0 +1,20 @@
+<!-- extends base template and displays admin interface -->
+
+{% extends 'base.html' %}
+{% block title %} Parking App -Admin {% endblock %}
+
+
+{% block rightside %} 
+<li class="nav-item"><a class="nav-link" href="/admin/home" style="color: #990066;font-weight: bold;">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="/admin/users" style="color: #990066;font-weight: bold;">Users</a></li>
+<li class="nav-item"><a class="nav-link" href="/admin/search" style="color: #990066;font-weight: bold;">Search</a></li>
+<li class="nav-item"><a class="nav-link" href="/admin/summary" style="color: #990066;font-weight: bold;">Summary</a></li>
+<li class="nav-item"><a class="nav-link" href="/admin/logout" style="color: #990066;font-weight: bold;">Logout</a></li>
+<li class="nav-item"><a class="nav-link" href="/admin/edit_profile" style="color: #0881f3;font-weight: bold;">Edit Profile</a></li>
+
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Welcome to the Parking Lot Booking App!</h1>
+    <p class="text-center">Book slots easily from your device.</p>
+{% endblock %}
