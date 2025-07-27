@@ -17,11 +17,38 @@ def admin_required(f):
     return decorated_function
 
 
-@admin_view.route('/home')
+@admin_view.route('/home',methods = ['POST','GET'])
 @admin_required
 def admin_home():
+    if request.method == 'POST':
+        lot_name = request.form['lot_name']
+        address = request.form['address']
+        pincode = request.form['pincode']
+        price = request.form['price']
+        max_slots = request.form['max_spots']
 
-    return render_template('admin/admin_home.html')
+        conn = conn_database()
+        curr = conn.cursor()
+
+        curr.execute('INSERT INTO PARKING_LOT (prime_location,price ,address,pincode,max_no_of_spots) VALUES (?,?,?,?,?)',(lot_name,price,address,pincode,max_slots))
+        id = curr.lastrowid
+        for i in range(1,int(max_slots)+1):
+            spot_name = f"{lot_name}-{i}"
+            curr.execute('INSERT INTO PARKING_SPOT (lot_id,slot_number,status) VALUES (?,?,?)',(id,spot_name,"A"))
+        conn.commit()
+        conn.close()
+    conn = conn_database()
+    curr = conn.cursor()
+    curr.execute('SELECT * FROM PARKING_LOT')
+    lots = curr.fetchall()
+    i=0
+    spots = []
+    for lot in lots:
+        curr.execute('SELECT * FROM PARKING_SPOT WHERE lot_id =?',(lot['id'],))
+        spots.append(curr.fetchall())
+        i+=1
+
+    return render_template('admin/admin_home.html',lots=lots, spots=spots)
 
 @admin_view.route('/users')
 @admin_required

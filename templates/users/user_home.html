@@ -1,2 +1,132 @@
 {% extends 'users/user_base.html' %}
 {% block title %} Parking App -User {% endblock %}
+
+{%block content%}
+    <link rel="stylesheet" href="/static/view.css">
+
+
+
+</div>
+{% if booking_details %}
+<div class="header">Recent Parking History</div>
+
+
+
+<div class="table-container">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Location</th>
+                <th>Vehicle Number</th>
+                <th>Timestamp</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {%for details in booking_details%}
+            <tr>
+                <td>{{details[0]}}</td>
+                <td>{{details[1]}}</td>
+                <td>{{details[5]}}</td>
+                <td>{{details[3]}}</td>
+                <td><label for="modal-toggle-{{details[0]}}" class="btn btn-primary">Book</label>
+                        <link rel="stylesheet" href="/static/popup.css">
+
+
+
+            </form>
+        </div>
+    </div></td>
+                
+            </tr>
+            {%endfor%}
+
+{% else %}
+<div class="header">No Parking History Found</div>
+{% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+<br>
+<div class="line-break"></div>
+<br>
+<form method="POST">
+<input type="hidden" name="form_type" value="search_parking">
+<div style="display: flex; align-items: center; justify-content: center; gap: 0px; margin: 20px 0;">
+  <div style="color: red; font-family: 'Comic Sans MS', 'Patrick Hand', cursive; font-size: 24px; font-weight: bold;margin-right: 10px;">
+    Search Parking @location/Pincode
+  </div>
+<div style="width: fit-content; text-align: left; width: fit-content; text-align: left;">
+  
+  <input type="text"
+         id="location_name"
+         name="location_name"
+         placeholder="Enter location or pincode"
+         style="padding: 8px 12px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; width: 250px;">
+             <button type="submit" class="btn btn-primary">Search</button>
+
+</div>
+
+    </form>
+
+</div>
+{% if parking_lots %}
+<div class="header">Parking Lots @{{parking_lots[0][1]}}</div>
+{% else %}
+<div class="header">No Parking Lots Found</div>
+{% endif %}
+
+<div class="table-container">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Address</th>
+                <th>Availability</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if parking_lots %}
+            {%for lot in parking_lots%}
+            <tr>
+                <td>{{lot[0]}}</td>
+                <td>{{lot[3]}}</td>
+                <td>{{lot[5]}}</td>
+                <td><label for="modal-toggle-{{lot[0]}}" class="btn btn-primary">Book</label>
+                        <link rel="stylesheet" href="/static/popup.css">
+
+
+    <input type="checkbox" id="modal-toggle-{{lot[0]}}" class="modal-toggle" hidden>
+
+    <div class="modal">
+        <div class="modal-content">
+            <label for="modal-toggle-{{lot[0]}}" class="close-btn">X</label>
+            <h5>Book the Parking Spot</h5>
+            <form method="POST">
+                <input type="hidden" name="form_type" value="book_lot">
+
+                <input type="text" name="spot_id" value="To be updated automaticlly" placeholder="Lot Prime Location Name" required><br>
+                <input type="text" name="lot_id" value="{{lot[1]}}" readonly  ><br>
+                <input type="text" name="user_id" value="{{session['username']}}" readonly ><br>
+                <input type="text" name="vehicle_number"  required><br>
+                <button type="submit">Reserve</button>
+                        <label for="modal-toggle-{{lot[0]}}" class="btn btn-secondary cancel-btn">Cancel</label>
+            </form>
+        </div>
+    </div></td>
+                
+            </tr>
+            {%endfor%}
+            {% else %}
+    <tr><td colspan="5">No parking lots found.</td></tr>
+{% endif %}
+        </tbody>
+    </table>
+</div>
+
+{%endblock%}

@@ -16,10 +16,39 @@ def login_required(f):
 
 
 
-@user_view.route('/home')
+@user_view.route('/home',methods = ['POST','GET'])
 @login_required
 def user_home():
-    return render_template('users/user_home.html')
+    conn = conn_database()
+    curr = conn.cursor()
+    curr.execute('SELECT * FROM PARKING_LOT')
+    parking_lots = curr.fetchall()
+    conn.close()
+    if request.method == 'POST':
+        request_name = request.form['form_type']
+        if request_name == 'search_parking':
+            conn = conn_database()
+            curr = conn.cursor()
+            location_name = request.form ['location_name']
+            curr.execute('SELECT * FROM PARKING_LOT WHERE prime_location = ?',(location_name,))
+            if not location_name or location_name.strip() =="":
+                curr.execute('SELECT * FROM PARKING_LOT')
+            
+            parking_lots = curr.fetchall()
+            return render_template('users/user_home.html',parking_lots = parking_lots)
+        if request_name == 'book_lot':
+            conn = conn_database()
+            curr = conn.cursor()
+            curr.execute('INSERT INTO BOOKING_DETAILS (user_id,vehicle_number) VALUES(?,?)',(session['id'],request.form['vehicle_number']))
+            conn.commit()
+            conn.close()
+    conn=conn_database()
+    curr=conn.cursor()
+    curr.execute('SELECT * FROM BOOKING_DETAILS WHERE user_id=?',(session['id'],))
+    booking_details = curr.fetchall()
+    conn.close()
+
+    return render_template('users/user_home.html',parking_lots = parking_lots,booking_details = booking_details)
 
 @user_view.route('/summary')
 @login_required

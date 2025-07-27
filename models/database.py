@@ -26,10 +26,11 @@ def create_database():
                 CREATE  TABLE IF NOT EXISTS PARKING_LOT(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 prime_location TEXT NOT NULL,
-                price INTEGER DEFAULT '250',
+                price INTEGER ,
                 address TEXT NOT NULL,
                 pincode INTEGER NOT NULL,
-                max_no_of_spots INTEGER NOT NULL DEFAULT '10'
+                max_no_of_spots INTEGER NOT NULL,
+                no_of_available INTEGER
                 );
                 ''')
     curr.execute('''CREATE TABLE IF NOT EXISTS PARKING_SPOT(
@@ -40,11 +41,13 @@ def create_database():
                 FOREIGN KEY(lot_id) REFERENCES PARKING_LOT(id) ON DELETE CASCADE
                 ); 
                 ''') 
-    curr.execute('''CREATE TABLE IF NOT EXISTS booking_details(
+    curr.execute('''CREATE TABLE IF NOT EXISTS BOOKING_DETAILS(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
-                slot_id INTEGER NOT NULL,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                slot_id INTEGER ,
+                timestamp_booked DATETIME,
+                timestamp_released DATETIME,
+                vehicle_number TEXT,
                 FOREIGN KEY(user_id) REFERENCES USERS(id),
                 FOREIGN KEY(slot_id) REFERENCES PARKING_SPOT(id)
                 );

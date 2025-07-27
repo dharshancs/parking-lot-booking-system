@@ -1,0 +1,75 @@
+.header {
+    font-family: 'Comic Sans MS', 'Patrick Hand', cursive;
+    font-size: 24px;
+    color: #0c2d9b;
+
+    border: 3px double #007bff;
+    border-radius: 15px;
+    font-weight: bold;
+
+    padding: 15px 30px;
+    text-align: center;
+    width: 100%;
+    margin: 20px auto;
+
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.line-break {
+    border: none;
+    border-top: 2px solid black;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.table-container {
+    border: 2px solid #007bff;
+    border-radius: 12px;
+    padding: 10px;
+    width: fit-content;
+    margin: 20px auto;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.styled-table th,
+.styled-table td {
+    border-right: 2px solid #007bff;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.styled-table th {
+    color: green;
+    font-weight: bold;
+}
+
+.styled-table td {
+    color: black;
+}
+
+.styled-table th:last-child,
+.styled-table td:last-child {
+    border-right: none; /* Remove border from last column */
+}
+
+.book-btn {
+    background-color: #8ecaff;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 16px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    cursor: pointer;
+}
+
+.book-btn:hover {
+    background-color: #007bff;
+    color: white;
+}
