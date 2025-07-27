@@ -9,26 +9,21 @@ def create_database():
                 CREATE TABLE IF NOT EXISTS USERS(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 email TEXT NOT NULL UNIQUE,               
-                name TEXT NOT NULL,
+                name TEXT ,
                 address TEXT,
                 pincode INTEGER,
-                password TEXT NOT NULL
+                password TEXT NOT NULL,
+                is_admin BOOLEAN DEFAULT FALSE                  
                 );
                 ''')
-    curr.execute('''
-                CREATE TABLE IF NOT EXISTS ADMIN(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT NOT NULL UNIQUE,
-                password TEXT NOT NULL               
-                );
-                ''')
+
     curr.execute('''
                 CREATE  TABLE IF NOT EXISTS PARKING_LOT(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 prime_location TEXT NOT NULL,
                 price INTEGER ,
                 address TEXT NOT NULL,
-                pincode INTEGER NOT NULL,
+                pincode TEXT NOT NULL,
                 max_no_of_spots INTEGER NOT NULL,
                 no_of_available INTEGER
                 );
@@ -44,16 +39,15 @@ def create_database():
     curr.execute('''CREATE TABLE IF NOT EXISTS BOOKING_DETAILS(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
-                slot_id INTEGER ,
-                 slot_number TEXT,
+                slot_number TEXT NOT NULL,
                 timestamp_booked DATETIME,
                 timestamp_released DATETIME,
                 vehicle_number TEXT,
+                booking_status TEXT NOT NULL,
                 FOREIGN KEY(user_id) REFERENCES USERS(id),
-                FOREIGN KEY(slot_id) REFERENCES PARKING_SPOT(id)
+                FOREIGN KEY(slot_number) REFERENCES PARKING_SPOT(slot_number)
                 );
                 ''')
-    
     conn.commit()
     conn.close()
 

@@ -8,6 +8,7 @@ from models.config import initialize_table
 
 def create_app():
     app = Flask(__name__)
+    app.jinja_env.globals.update(int=int)
     app.secret_key = 'dharshan'
 
     initialize_table()

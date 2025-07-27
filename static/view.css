@@ -73,3 +73,52 @@
     background-color: #007bff;
     color: white;
 }
+
+.btn-primary-book {
+    background-color: #00ccff;  /* <-- Change to your desired color */
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 16px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-book:hover {
+    background-color: #00c3ff;
+    color: white;
+}
+.btn-primary-parked {
+    background-color: #00ff62;  /* <-- Change to your desired color */
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 16px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-parked:hover {
+    background-color: #cc7a00;
+    color: rgb(0, 0, 0);
+}
+.btn-primary-release {
+    background-color: #ff9900;  /* <-- Change to your desired color */
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 16px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-release:hover {
+    background-color: #cc7a00;
+    color: rgb(0, 0, 0);
+}

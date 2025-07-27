@@ -58,31 +58,15 @@ def user_login():
         #Add check for wrong password or no user
 
         if user and check_password_hash(user['password'],password):
-            session['id'] = user['id']
-            session['username'] = user['email']
-            session['is_admin'] = False
-            return redirect(url_for('user.user_home'))
+            if not user['is_admin']:
+                session['id'] = user['id']
+                session['email'] = user['email']
+                session['is_admin'] = False
+                return redirect(url_for('user.user_home'))
+            elif user['is_admin']:
+                session['id'] = user['id']
+                session['email'] = user['email']
+                session['is_admin'] = True
+                return redirect(url_for('admin.admin_home'))
     return render_template('users/user_login.html')
 
-@u_view.route('/admin/login',methods=['POST','GET'])
-def admin_login():
-    if request.method == 'POST':
-        username = request.form['admin_username']
-        password = request.form['admin_password']
-
-        conn = conn_database()
-        curr = conn.cursor()
-
-        curr.execute('SELECT * FROM ADMIN WHERE username = ?',(username,))
-        admin = curr.fetchone()
-        if not admin:
-            return redirect(url_for('base.index'))
-
-        conn.close()
-
-        if username == admin['username'] and password == admin['password']:
-            session['id'] = admin['id']
-            session['username'] = admin['username']
-            session['is_admin'] = True
-            return redirect(url_for('admin.admin_home'))
-    return render_template('admin/admin_login.html')
