@@ -45,6 +45,7 @@ def create_database():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 slot_id INTEGER ,
+                 slot_number TEXT,
                 timestamp_booked DATETIME,
                 timestamp_released DATETIME,
                 vehicle_number TEXT,
