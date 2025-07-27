@@ -2,6 +2,7 @@ from flask import render_template,redirect, url_for,Blueprint,session,request
 from .__init__ import conn_database
 from werkzeug.security import generate_password_hash
 from functools import wraps
+import time
 
 user_view = Blueprint('user',__name__,url_prefix='/user')
 
@@ -23,6 +24,16 @@ def user_home():
     curr = conn.cursor()
     curr.execute('SELECT * FROM PARKING_LOT')
     parking_lots = curr.fetchall()
+    available_slot_data = []
+    for lot in parking_lots:
+        curr.execute("SELECT * FROM PARKING_SPOT WHERE lot_id = ? AND status = 'A' LIMIT 1",(lot['id'],))
+        available_spot = curr.fetchone()
+        if available_spot:
+            available_slot_data.append((lot['id'], available_spot['slot_number']))
+        else:
+            available_slot_data.append((lot['id'], "No Available Slot"))
+
+
     conn.close()
     if request.method == 'POST':
         request_name = request.form['form_type']
@@ -39,16 +50,19 @@ def user_home():
         if request_name == 'book_lot':
             conn = conn_database()
             curr = conn.cursor()
-            curr.execute('INSERT INTO BOOKING_DETAILS (user_id,vehicle_number) VALUES(?,?)',(session['id'],request.form['vehicle_number']))
+            curr.execute('INSERT INTO BOOKING_DETAILS (user_id,slot_number,timestamp_booked,vehicle_number) VALUES(?,?,?,?)',(session['id'],request.form['spot_id'],int(time.time()),request.form['vehicle_number']))
+            conn.commit()
+            curr.execute('UPDATE PARKING_SPOT SET status ="O" WHERE slot_number=?',(request.form['spot_id'],))
             conn.commit()
             conn.close()
+            return redirect(url_for('user.user_home'))
     conn=conn_database()
     curr=conn.cursor()
     curr.execute('SELECT * FROM BOOKING_DETAILS WHERE user_id=?',(session['id'],))
     booking_details = curr.fetchall()
     conn.close()
 
-    return render_template('users/user_home.html',parking_lots = parking_lots,booking_details = booking_details)
+    return render_template('users/user_home.html',parking_lots = parking_lots,booking_details = booking_details,available_slot_data=available_slot_data)
 
 @user_view.route('/summary')
 @login_required

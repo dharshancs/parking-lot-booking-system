@@ -29,8 +29,8 @@
             <tr>
                 <td>{{details[0]}}</td>
                 <td>{{details[1]}}</td>
-                <td>{{details[5]}}</td>
-                <td>{{details[3]}}</td>
+                <td>{{details[6]}}</td>
+                <td>{{details[4]}}</td>
                 <td><label for="modal-toggle-{{details[0]}}" class="btn btn-primary">Book</label>
                         <link rel="stylesheet" href="/static/popup.css">
 
@@ -96,7 +96,7 @@
             <tr>
                 <td>{{lot[0]}}</td>
                 <td>{{lot[3]}}</td>
-                <td>{{lot[5]}}</td>
+                <td>"Yet to be decided"</td>
                 <td><label for="modal-toggle-{{lot[0]}}" class="btn btn-primary">Book</label>
                         <link rel="stylesheet" href="/static/popup.css">
 
@@ -110,7 +110,7 @@
             <form method="POST">
                 <input type="hidden" name="form_type" value="book_lot">
 
-                <input type="text" name="spot_id" value="To be updated automaticlly" placeholder="Lot Prime Location Name" required><br>
+                <input type="text" name="spot_id" value="{%for data in available_slot_data%}{%if data[0]==lot['id']%}{{data[1]}}{%endif%}{%endfor%}" placeholder="Lot Prime Location Name" required><br>
                 <input type="text" name="lot_id" value="{{lot[1]}}" readonly  ><br>
                 <input type="text" name="user_id" value="{{session['username']}}" readonly ><br>
                 <input type="text" name="vehicle_number"  required><br>

@@ -33,7 +33,7 @@ def admin_home():
         curr.execute('INSERT INTO PARKING_LOT (prime_location,price ,address,pincode,max_no_of_spots) VALUES (?,?,?,?,?)',(lot_name,price,address,pincode,max_slots))
         id = curr.lastrowid
         for i in range(1,int(max_slots)+1):
-            spot_name = f"{lot_name}-{i}"
+            spot_name = f"{lot_name} Spot # {i}"
             curr.execute('INSERT INTO PARKING_SPOT (lot_id,slot_number,status) VALUES (?,?,?)',(id,spot_name,"A"))
         conn.commit()
         conn.close()
