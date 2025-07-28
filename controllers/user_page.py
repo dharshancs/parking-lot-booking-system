@@ -29,7 +29,7 @@ def user_home():
         curr.execute("SELECT * FROM PARKING_SPOT WHERE lot_id = ? AND status = 'A' LIMIT 1",(lot['id'],))
         available_spot = curr.fetchone()
         if available_spot:
-            available_slot_data.append((lot['id'], available_spot['slot_number']))
+            available_slot_data.append((lot['id'], available_spot['spot_number']))
         else:
             available_slot_data.append((lot['id'], "No Available Slot"))
 
@@ -37,9 +37,9 @@ def user_home():
     conn.close()
     conn=conn_database()
     curr=conn.cursor()
-    curr.execute('''SELECT BD.slot_number as sn,BD.id as id,BD.vehicle_number as vn,BD.timestamp_booked as tb,PL.prime_location as pl,BD.timestamp_released as tr,PL.price as price,BD.booking_status as b_status
+    curr.execute('''SELECT PS.lot_id as li,BD.spot_number as sn,BD.id as id,BD.vehicle_number as vn,BD.timestamp_booked as tb,PL.prime_location as pl,BD.timestamp_released as tr,PL.price as price,BD.booking_status as b_status
                  FROM BOOKING_DETAILS BD 
-                 JOIN  PARKING_SPOT PS ON PS.slot_number=BD.slot_number 
+                 JOIN  PARKING_SPOT PS ON PS.spot_number=BD.spot_number 
                  JOIN  PARKING_LOT PL on PL.id=PS.lot_id WHERE BD.user_id=? ORDER BY BD.timestamp_booked DESC''',(session['id'],))
     booking_details = curr.fetchall()
     conn.close()
@@ -50,29 +50,31 @@ def user_home():
         if request_name == 'book_lot':
             conn = conn_database()
             curr = conn.cursor()
-            curr.execute('INSERT INTO BOOKING_DETAILS (user_id,slot_number,timestamp_booked,vehicle_number,booking_status) VALUES(?,?,?,?,?)',(session['id'],request.form['spot_id'],int(datetime.now().timestamp()),request.form['vehicle_number'],"OPEN"))
+            curr.execute('INSERT INTO BOOKING_DETAILS (user_id,spot_number,timestamp_booked,vehicle_number,booking_status) VALUES(?,?,?,?,?)',(session['id'],request.form['spot_number'],int(datetime.now().timestamp()),request.form['vehicle_number'],"OPEN"))
             conn.commit()
-            curr.execute('UPDATE PARKING_SPOT SET status ="O" WHERE slot_number=?',(request.form['spot_id'],))
+            curr.execute('UPDATE PARKING_SPOT SET status ="O" WHERE spot_number=?',(request.form['spot_number'],))
+            curr.execute('UPDATE PARKING_LOT SET no_of_available=no_of_available-1 where id=?',(request.form['lot_id'],))
             conn.commit()
             conn.close()
             return redirect(url_for('user.user_home'))
         if request_name == 'release_spot':
-            spot_id = request.form['spot_id']
+            spot_number = request.form['spot_number']
             conn = conn_database()
             curr = conn.cursor()
-            curr.execute('UPDATE BOOKING_DETAILS SET booking_status = ? WHERE slot_number =?' ,("closed",spot_id))
+            curr.execute('UPDATE BOOKING_DETAILS SET booking_status = ? WHERE spot_number =?' ,("closed",spot_number))
             conn.commit()
-            curr.execute('UPDATE PARKING_SPOT SET status =? WHERE slot_number = ?',('A',spot_id))
+            curr.execute('UPDATE PARKING_SPOT SET status =? WHERE spot_number = ?',('A',spot_number))
+            curr.execute('UPDATE PARKING_LOT SET no_of_available=no_of_available+1 where id=?',(request.form['lot_id'],))
             conn.commit()
             conn.close()
             return redirect(url_for('user.user_home'))
         if request_name == 'search_parking':
             conn = conn_database()
             curr = conn.cursor()
-            location_name = request.form ['location_name']
-            curr.execute('SELECT * FROM PARKING_LOT WHERE prime_location = ?',(location_name,))
+            prime_location = request.form ['prime_location']
+            curr.execute('SELECT * FROM PARKING_LOT WHERE prime_location = ?',(prime_location,))
             flag = False
-            if not location_name or location_name.strip() =="":
+            if not prime_location or prime_location.strip() =="":
                 curr.execute('SELECT * FROM PARKING_LOT')
                 flag = True
             

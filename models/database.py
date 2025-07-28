@@ -31,7 +31,7 @@ def create_database():
     curr.execute('''CREATE TABLE IF NOT EXISTS PARKING_SPOT(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 lot_id INTEGER NOT NULL,
-                slot_number TEXT NOT NULL,
+                spot_number TEXT NOT NULL,
                 status TEXT DEFAULT 'A',
                 FOREIGN KEY(lot_id) REFERENCES PARKING_LOT(id) ON DELETE CASCADE
                 ); 
@@ -39,13 +39,13 @@ def create_database():
     curr.execute('''CREATE TABLE IF NOT EXISTS BOOKING_DETAILS(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
-                slot_number TEXT NOT NULL,
+                spot_number TEXT NOT NULL,
                 timestamp_booked DATETIME,
                 timestamp_released DATETIME,
                 vehicle_number TEXT,
                 booking_status TEXT NOT NULL,
                 FOREIGN KEY(user_id) REFERENCES USERS(id),
-                FOREIGN KEY(slot_number) REFERENCES PARKING_SPOT(slot_number)
+                FOREIGN KEY(spot_number) REFERENCES PARKING_SPOT(spot_number)
                 );
                 ''')
     conn.commit()

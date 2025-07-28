@@ -41,8 +41,8 @@
             <h5>Release the booked spot</h5>
             <form method="POST">
                 <input type="hidden" name="form_type" value="release_spot">
-
-                <input type="text" name="spot_id" value="{{details['sn']}}" readonly  ><br>
+                <input type="text" name="lot_id" value="{{details['li']}}" readonly  hidden >
+                <input type="text" name="spot_number" value="{{details['sn']}}" readonly  ><br>
                 <input type="text" name="vehicle_number" value="{{details['vn']}}" readonly ><br>
                 <input type="text" name="parking_time"  value="{{datetime.fromtimestamp(details['tb']).strftime('%d-%m-%Y %H:%M:%S')}}" readonly><br>
                 <input type="text" name="release_time" value="{{ datetime.now().strftime('%d-%m-%Y %H:%M:%S') }}" readonly ><br>
@@ -81,8 +81,8 @@
 <div style="width: fit-content; text-align: left; width: fit-content; text-align: left;">
   
   <input type="text"
-         id="location_name"
-         name="location_name"
+         id="prime_location"
+         name="prime_location"
          placeholder="Enter location or pincode"
          style="padding: 8px 12px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; width: 250px;">
              <button type="submit" class="btn btn-primary">Search</button>
@@ -128,13 +128,14 @@
     <div class="modal">
         <div class="modal-content">
             <label for="book-modal-toggle-{{lot[0]}}" class="close-btn">X</label>
-            <h5>Release the Parking Spot</h5>
+            <h5>Book a Parking Spot</h5>
             <form method="POST">
                 <input type="hidden" name="form_type" value="book_lot">
 
-                <input type="text" name="spot_id" value="{%for data in available_slot_data%}{%if data[0]==lot['id']%}{{data[1]}}{%endif%}{%endfor%}" placeholder="Lot Prime Location Name" readonly><br>
-                <input type="text" name="lot_id" value="{{lot[1]}}" readonly  ><br>
-                <input type="text" name="user_id" value="{{session['email']}}" readonly ><br>
+                <input type="text" name="spot_number" value="{%for data in available_slot_data%}{%if data[0]==lot['id']%}{{data[1]}}{%endif%}{%endfor%}" placeholder="Spot Number" readonly><br>
+                <input type="text" name="lot_id" value="{{lot['id']}}" readonly hidden  >
+                <input type="text" name="prime_location" value="{{lot['prime_location']}}" readonly  ><br>
+                <input type="text" name="user_email" value="{{session['email']}}" readonly ><br>
                 <input type="text" name="vehicle_number"  required><br>
                 <button type="submit">Book</button>
                         <label for="book-modal-toggle-{{lot[0]}}" class="btn btn-secondary cancel-btn">Cancel</label>

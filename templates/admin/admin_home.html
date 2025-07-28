@@ -15,9 +15,30 @@
 <div class="lot-box" style="font-size: 1.25rem; font-family: 'Shadows Into Light', 'Comic Sans MS', cursive; ">
     <h2 style="font-size: 1.5rem;font-family: 'Shadows Into Light', 'Comic Sans MS', cursive; ">{{ lot[1] }}</h2>
     <div class="lot-actions">
-        <span class="edit">Edit</span> | <span class="delete">Delete</span>
+<label for="edit-modal-toggle-{{lot['id']}}" class="edit" style="cursor: pointer;">Edit</label> | <label for="delete-modal-toggle" class="delete" style="cursor: pointer;">Delete</label>
+        <link rel="stylesheet" href="/static/popup.css">
 
 
+    <input type="checkbox" id="edit-modal-toggle-{{lot['id']}}" class="modal-toggle" hidden>
+
+    <div class="modal">
+        <div class="modal-content" style="font-size: 1.25rem">
+            <label for="edit-modal-toggle-{{lot['id']}}" class="close-btn" >X</label>
+            <h5 style="font-size: 1.5rem">Edit Parking lot @{{lot['prime_location']}}</h5>
+            <form method="POST">
+                <input type="text" name="form_type" value="edit_lot">
+
+                <input type="text" name="lot_id" value="{{lot['id']}}" hidden readonly>
+                <input type="text" name="prime_location" value="{{lot['prime_location']}}" required><br>
+                <input type="text" name="address" value="{{lot['address']}}" required><br>
+                <input type="text" name="pincode" value="{{lot['pincode']}}" required><br>
+                <input type="number" name="price" value="{{lot['price']}}" required><br>
+                <input type="number" name="max_no_of_spots" value="{{lot['max_no_of_spots']}}" required><br>
+                <button type="submit" style="font-size: 1.5rem">Update</button>
+                        <label for="edit-modal-toggle-{{lot['id']}}" class="btn btn-secondary cancel-btn">Cancel</label>
+            </form>
+        </div>
+    </div>
 
     </div>
     <div class="occupancy">(Occupied: )</div>
@@ -36,9 +57,9 @@
             <div class="modal">
                 <div class="modal-content">
                     <label for="modal-{{ spot[0] }}" class="close-btn">X</label>
-                    <h4>{{ spot[2] }}</h4>
-                    <p>Status: {{ spot[3]}}</p>
-                    <p>{{ spot[3] }}</p>
+                    <h4>{{ spot['spot_number'] }}</h4>
+                    <p>Status: {{ spot['status']}}</p>
+                    <p>{{ spot['status'] }}</p>
                 </div>
             </div>
         {%endif%}
@@ -60,6 +81,8 @@
             <label for="modal-toggle" class="close-btn" >X</label>
             <h5 style="font-size: 1.5rem">Create a New Parking Lot</h5>
             <form method="POST">
+                <input type="hidden" name="form_type" value="create_lot">
+
                 <input type="text" name="prime_location" placeholder="Lot Prime Location Name" required><br>
                 <input type="text" name="address" placeholder="Address" required><br>
                 <input type="text" name="pincode" placeholder="Pincode" required><br>
