@@ -12,8 +12,8 @@
 <link rel="stylesheet" href="/static/lot_popup.css">
 
  {%for lot in lots%}
-<div class="lot-box">
-    <h2>{{ lot[1] }}</h2>
+<div class="lot-box" style="font-size: 1.25rem; font-family: 'Shadows Into Light', 'Comic Sans MS', cursive; ">
+    <h2 style="font-size: 1.5rem;font-family: 'Shadows Into Light', 'Comic Sans MS', cursive; ">{{ lot[1] }}</h2>
     <div class="lot-actions">
         <span class="edit">Edit</span> | <span class="delete">Delete</span>
 
@@ -51,21 +51,21 @@
 <link rel="stylesheet" href="/static/popup.css">
 
 <div style="margin-top: 40px; text-align: center;">
-    <label for="modal-toggle" class="btn btn-primary"style="font-size:18px; padding:12px 24px;">+ Add Lot</label>
+    <label for="modal-toggle" class="btn btn-primary-add"style="font-size:1.5rem; padding:12px 24px;">+ Add Lot</label>
 </div>
     <input type="checkbox" id="modal-toggle" class="modal-toggle" hidden>
 
     <div class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="font-size: 1.25rem">
             <label for="modal-toggle" class="close-btn" >X</label>
-            <h5>Create a New Parking Lot</h5>
+            <h5 style="font-size: 1.5rem">Create a New Parking Lot</h5>
             <form method="POST">
                 <input type="text" name="prime_location" placeholder="Lot Prime Location Name" required><br>
                 <input type="text" name="address" placeholder="Address" required><br>
                 <input type="text" name="pincode" placeholder="Pincode" required><br>
                 <input type="number" name="max_no_of_spots" placeholder="Max Spots" required><br>
                 <input type="number" name="price" placeholder="Price per Hour" required><br>
-                <button type="submit">Create Lot</button>
+                <button type="submit" style="font-size: 1.5rem">Create Lot</button>
                         <label for="modal-toggle" class="btn btn-secondary cancel-btn">Cancel</label>
             </form>
         </div>

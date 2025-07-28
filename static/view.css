@@ -1,6 +1,6 @@
 .header {
     font-family: 'Comic Sans MS', 'Patrick Hand', cursive;
-    font-size: 24px;
+    font-size: 1.62rem;
     color: #0c2d9b;
 
     border: 3px double #007bff;
@@ -18,7 +18,7 @@
 
 .line-break {
     border: none;
-    border-top: 2px solid black;
+    border-top: 2px solid rgb(0, 0, 0);
     margin: 10px 0;
     width: 100%;
 }
@@ -42,7 +42,7 @@
     border-right: 2px solid #007bff;
     padding: 10px 15px;
     text-align: center;
-    font-size: 18px;
+    font-size: 1.25rem;
 }
 
 .styled-table th {
@@ -64,7 +64,7 @@
     border: 2px solid #007bff;
     border-radius: 6px;
     padding: 5px 12px;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
     cursor: pointer;
 }
@@ -80,7 +80,7 @@
     border: 2px solid #000000;
     border-radius: 6px;
     padding: 5px 12px;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -96,7 +96,7 @@
     border: 2px solid #000000;
     border-radius: 6px;
     padding: 5px 12px;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -107,18 +107,35 @@
     color: rgb(0, 0, 0);
 }
 .btn-primary-release {
-    background-color: #ff9900;  /* <-- Change to your desired color */
+    background-color: #ffc2b0;  /* <-- Change to your desired color */
     color: rgb(0, 0, 0);
     border: 2px solid #000000;
     border-radius: 6px;
     padding: 5px 12px;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .btn-primary-release:hover {
-    background-color: #cc7a00;
+    background-color: #e97f99;
     color: rgb(0, 0, 0);
+}
+.btn-primary-add {
+    background-color: #32c4e9;  /* <-- Change to your desired color */
+    color: rgb(0, 0, 0);
+    border: 2px solid #ee7f00;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 1rem;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-add:hover {
+    background-color: #00c3ff;
+    border: 2px solid #ee7f00;
+    color: #000000;
 }

@@ -3,15 +3,20 @@
 {% extends 'base.html' %}
 {% block title %} Parking App -User {% endblock %}
 
+{%block leftside%} Welcome User {%endblock%}
+
 
 {% block rightside %} 
-<li class="nav-item"><a class="nav-link" href="/user/home" style="color: #990066;font-weight: bold;">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="/user/home" style="color: #000000;font-weight: bold;">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="/user/summary" style="color: #990066;font-weight: bold;">Summary</a></li>
 <li class="nav-item"><a class="nav-link" href="/user/logout" style="color: #990066;font-weight: bold;">logout</a></li>
-<li class="nav-item"><a class="nav-link" href="/user/edit_profile" style="color: #0881f3;font-weight: bold;">Edit Profile</a></li>
 
 {% endblock %}
 
+{%block corner%}
+<li class="nav-item"><a class="nav-link" href="/user/edit_profile" style="color: #0881f3;font-weight: bold;">Edit Profile</a></li>
+
+{%endblock%}
 {% block content %}
     <h1 class="text-center">Welcome to the Parking Lot Booking App!</h1>
     <p class="text-center">Book slots easily from your device.</p>

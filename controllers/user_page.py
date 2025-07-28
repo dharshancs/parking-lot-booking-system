@@ -35,18 +35,18 @@ def user_home():
 
 
     conn.close()
+    conn=conn_database()
+    curr=conn.cursor()
+    curr.execute('''SELECT BD.slot_number as sn,BD.id as id,BD.vehicle_number as vn,BD.timestamp_booked as tb,PL.prime_location as pl,BD.timestamp_released as tr,PL.price as price,BD.booking_status as b_status
+                 FROM BOOKING_DETAILS BD 
+                 JOIN  PARKING_SPOT PS ON PS.slot_number=BD.slot_number 
+                 JOIN  PARKING_LOT PL on PL.id=PS.lot_id WHERE BD.user_id=? ORDER BY BD.timestamp_booked DESC''',(session['id'],))
+    booking_details = curr.fetchall()
+    conn.close()
+
     if request.method == 'POST':
         request_name = request.form['form_type']
-        if request_name == 'search_parking':
-            conn = conn_database()
-            curr = conn.cursor()
-            location_name = request.form ['location_name']
-            curr.execute('SELECT * FROM PARKING_LOT WHERE prime_location = ?',(location_name,))
-            if not location_name or location_name.strip() =="":
-                curr.execute('SELECT * FROM PARKING_LOT')
-            
-            parking_lots = curr.fetchall()
-            return render_template('users/user_home.html',parking_lots = parking_lots)
+        
         if request_name == 'book_lot':
             conn = conn_database()
             curr = conn.cursor()
@@ -60,22 +60,26 @@ def user_home():
             spot_id = request.form['spot_id']
             conn = conn_database()
             curr = conn.cursor()
-            curr.execute('UPDATE BOOKING_DETAILS SET booking_status = ?',("closed",))
+            curr.execute('UPDATE BOOKING_DETAILS SET booking_status = ? WHERE slot_number =?' ,("closed",spot_id))
             conn.commit()
             curr.execute('UPDATE PARKING_SPOT SET status =? WHERE slot_number = ?',('A',spot_id))
             conn.commit()
             conn.close()
             return redirect(url_for('user.user_home'))
-    conn=conn_database()
-    curr=conn.cursor()
-    curr.execute('''SELECT BD.slot_number as sn,BD.id as id,BD.vehicle_number as vn,BD.timestamp_booked as tb,PL.prime_location as pl,BD.timestamp_released as tr,PL.price as price,BD.booking_status as b_status
-                 FROM BOOKING_DETAILS BD 
-                 JOIN  PARKING_SPOT PS ON PS.slot_number=BD.slot_number 
-                 JOIN  PARKING_LOT PL on PL.id=PS.lot_id WHERE BD.user_id=?''',(session['id'],))
-    booking_details = curr.fetchall()
-    conn.close()
-    print("available slots = ", available_slot_data)
+        if request_name == 'search_parking':
+            conn = conn_database()
+            curr = conn.cursor()
+            location_name = request.form ['location_name']
+            curr.execute('SELECT * FROM PARKING_LOT WHERE prime_location = ?',(location_name,))
+            flag = False
+            if not location_name or location_name.strip() =="":
+                curr.execute('SELECT * FROM PARKING_LOT')
+                flag = True
+            
+            parking_lots = curr.fetchall()
+            return render_template('users/user_home.html',parking_lots = parking_lots,booking_details = booking_details,available_slot_data=available_slot_data,datetime=datetime,flag = flag)
 
+    
     return render_template('users/user_home.html',parking_lots = parking_lots,booking_details = booking_details,available_slot_data=available_slot_data,datetime=datetime)
 
 @user_view.route('/summary')

@@ -35,7 +35,7 @@
                         <link rel="stylesheet" href="/static/popup.css">
     <input type="checkbox" id="release-modal-toggle-{{details['id']}}" class="modal-toggle" hidden>
 
-    <div class="modal">
+    <div class="modal" id="release-modal-{{details['id']}}">
         <div class="modal-content">
             <label for="release-modal-toggle-{{details['id']}}" class="close-btn">X</label>
             <h5>Release the booked spot</h5>
@@ -56,9 +56,7 @@
 
 
 
-            </form>
-        </div>
-    </div></td>
+            
                 
             </tr>
             {%endfor%}
@@ -95,7 +93,11 @@
 
 </div>
 {% if parking_lots %}
+{% if flag %}
+<div class="header">All Available Parking Lots</div>
+{%else%}
 <div class="header">Parking Lots @{{parking_lots[0][1]}}</div>
+{%endif%}
 {% else %}
 <div class="header">No Parking Lots Found</div>
 {% endif %}
