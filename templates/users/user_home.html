@@ -107,8 +107,9 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Prime Location Name</th>
                 <th>Address</th>
-                <th>Availability</th>
+                <th>Number of Availabile Spots</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -117,8 +118,9 @@
             {%for lot in parking_lots%}
             <tr>
                 <td>{{lot[0]}}</td>
+                <td>{{lot['prime_location']}}</td>
                 <td>{{lot[3]}}</td>
-                <td>"Yet to be decided"</td>
+                <td>{{lot['no_of_available']}}</td>
                 <td><label for="book-modal-toggle-{{lot[0]}}" class="btn btn-primary-book">Book</label>
                         <link rel="stylesheet" href="/static/popup.css">
 
