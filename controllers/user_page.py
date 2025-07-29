@@ -37,12 +37,13 @@ def user_home():
     conn.close()
     conn=conn_database()
     curr=conn.cursor()
-    curr.execute('''SELECT PS.lot_id as li,BD.spot_number as sn,BD.id as id,BD.vehicle_number as vn,BD.timestamp_booked as tb,PL.prime_location as pl,BD.timestamp_released as tr,PL.price as price,BD.booking_status as b_status
+    curr.execute('''SELECT BD.price as paid_price,PS.lot_id as li,BD.spot_number as sn,BD.id as id,BD.vehicle_number as vn,BD.timestamp_booked as tb,PL.prime_location as pl,BD.timestamp_released as tr,PL.price as price,BD.booking_status as b_status
                  FROM BOOKING_DETAILS BD 
                  JOIN  PARKING_SPOT PS ON PS.spot_number=BD.spot_number 
                  JOIN  PARKING_LOT PL on PL.id=PS.lot_id WHERE BD.user_id=? ORDER BY BD.timestamp_booked DESC''',(session['id'],))
     booking_details = curr.fetchall()
     conn.close()
+    flag = True
 
     if request.method == 'POST':
         request_name = request.form['form_type']
@@ -50,7 +51,7 @@ def user_home():
         if request_name == 'book_lot':
             conn = conn_database()
             curr = conn.cursor()
-            curr.execute('INSERT INTO BOOKING_DETAILS (user_id,spot_number,timestamp_booked,vehicle_number,booking_status) VALUES(?,?,?,?,?)',(session['id'],request.form['spot_number'],int(datetime.now().timestamp()),request.form['vehicle_number'],"OPEN"))
+            curr.execute('INSERT INTO BOOKING_DETAILS (user_id,spot_number,timestamp_booked,vehicle_number,booking_status) VALUES(?,?,?,?,?)',(session['id'],request.form['spot_number'],int(datetime.now().timestamp()),request.form['vehicle_number'],"open"))
             conn.commit()
             curr.execute('UPDATE PARKING_SPOT SET status ="O" WHERE spot_number=?',(request.form['spot_number'],))
             curr.execute('UPDATE PARKING_LOT SET no_of_available=no_of_available-1 where id=?',(request.form['lot_id'],))
@@ -61,13 +62,13 @@ def user_home():
             spot_number = request.form['spot_number']
             conn = conn_database()
             curr = conn.cursor()
-            curr.execute('UPDATE BOOKING_DETAILS SET booking_status = ? WHERE spot_number =?' ,("closed",spot_number))
+            curr.execute('UPDATE BOOKING_DETAILS SET booking_status = ?,timestamp_released=?,price =? WHERE spot_number =?' ,("closed",request.form['release_time'],request.form['total_cost'],spot_number))
             conn.commit()
             curr.execute('UPDATE PARKING_SPOT SET status =? WHERE spot_number = ?',('A',spot_number))
             curr.execute('UPDATE PARKING_LOT SET no_of_available=no_of_available+1 where id=?',(request.form['lot_id'],))
             conn.commit()
             conn.close()
-            return redirect(url_for('user.user_home'))
+            return redirect(url_for('user.user_home'))            
         if request_name == 'search_parking':
             conn = conn_database()
             curr = conn.cursor()
@@ -80,9 +81,7 @@ def user_home():
             
             parking_lots = curr.fetchall()
             return render_template('users/user_home.html',parking_lots = parking_lots,booking_details = booking_details,available_slot_data=available_slot_data,datetime=datetime,flag = flag)
-
-    
-    return render_template('users/user_home.html',parking_lots = parking_lots,booking_details = booking_details,available_slot_data=available_slot_data,datetime=datetime)
+    return render_template('users/user_home.html',parking_lots = parking_lots,booking_details = booking_details,available_slot_data=available_slot_data,datetime=datetime,flag = flag)
 
 @user_view.route('/summary')
 @login_required

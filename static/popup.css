@@ -16,13 +16,7 @@
     display: flex;
 }
 
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 300px;
-    text-align: center;
-}
+
 
 .close-btn {
     position: absolute;
@@ -48,3 +42,137 @@
 .modal-content button:hover {
     background-color: #0056b3;
 }
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px; 
+    min-width: 300px;
+    min-height: 200px;
+    width: fit-content;
+    max-width: 90vw;
+
+    text-align: left;
+    position: relative;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.modal-heading {
+    background-color: #ffeb99;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.booking-form-horizontal .form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    
+}
+
+.booking-form-horizontal .form-row label {
+    flex: 1;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 10px;
+    min-width: 9rem;
+    white-space: nowrap;
+    color: black;
+}
+
+.booking-form-horizontal .form-row input {
+    flex: 2;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    color: #b30000;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem; 
+    margin-top: 25px;
+    background-color: #e6f0ff;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.btn-wide {
+    flex: 1; 
+    background-color: #add8e6;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+.cancel-btn {
+    display: inline-block;
+}
+.lot-box {
+    border: 2px solid #1b73e8;
+    border-radius: 12px;
+    padding: 15px;
+    width: 300px;
+    display: inline-block;
+    margin: 10px;
+    font-family: sans-serif;
+}
+
+.lot-box h2 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.lot-actions {
+    text-align: center;
+    color: orange;
+    font-weight: bold;
+}
+
+.occupancy {
+    text-align: center;
+    color: green;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.spot-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    justify-items: center;
+}
+
+.spot {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #1b73e8;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 28px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.available {
+    background-color: #c1f0c1;
+    color: #007b00;
+}
+
+.occupied {
+    background-color: #ffc0c0;
+    color: #b30000;
+}
+

@@ -79,14 +79,7 @@ def admin_home():
             conn.commit()
             
             conn.close()
-            return(redirect(url_for('admin.admin_home')))
-       
-    
-
-
-
-
-
+        return(redirect(url_for('admin.admin_home')))
     conn = conn_database()
     curr = conn.cursor()
     curr.execute('SELECT * FROM PARKING_LOT')
@@ -128,8 +121,6 @@ def admin_profile():
     curr = conn.cursor()
     curr.execute('SELECT * FROM USERS WHERE id = ?',(session['id'],))
     admin = curr.fetchone()
-    print(session['id'])
-    print(admin)
     conn.close()
 
     id = admin['id']

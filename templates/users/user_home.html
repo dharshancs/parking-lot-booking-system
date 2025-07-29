@@ -31,15 +31,19 @@
                 <td>{{details['pl']}}</td>
                 <td>{{details['vn']}}</td>
                 <td>{{datetime.fromtimestamp(details['tb']).strftime('%d-%m-%Y %H:%M:%S')}}</td>
-                <td><label for="release-modal-toggle-{{details['id']}}" class="btn btn-primary-{%if details['b_status']=='closed'%}parked{%else%}release{%endif%}">{%if details['b_status']=="closed"%}Parked Out{%else%}Release{%endif%}</label>
-                        <link rel="stylesheet" href="/static/popup.css">
+                {%if details['b_status']=='open'%}
+                <td><label for="release-modal-toggle-{{details['id']}}" class="btn btn-primary-release">Release</label>
+                {%else%}
+                <td><label for="parked_out-modal-toggle-{{details['id']}}" class="btn btn-primary-parked">Parked Out</label>
+                {%endif%}        
+                <link rel="stylesheet" href="/static/popup.css">
+{%if details['b_status'] =='open'%}
     <input type="checkbox" id="release-modal-toggle-{{details['id']}}" class="modal-toggle" hidden>
 
-    <div class="modal" id="release-modal-{{details['id']}}">
+    <div class="modal" id="release-modal-toggle-{{details['id']}}">
         <div class="modal-content">
             <label for="release-modal-toggle-{{details['id']}}" class="close-btn">X</label>
             <h5 class="modal-heading">Release the booked spot</h5>
-            
             <form method="POST" class="booking-form-horizontal">
                 <input type="hidden" name="form_type" value="release_spot">
                 <input type="text" name="lot_id" value="{{details['li']}}" readonly  hidden >
@@ -70,6 +74,49 @@
             </form>
         </div>
     </div></td>
+{%else%}
+    <input type="checkbox" id="parked_out-modal-toggle-{{details['id']}}" class="modal-toggle" hidden>
+
+    <div class="modal" id="parked_out-modal-toggle-{{details['id']}}">
+        <div class="modal-content">
+            <label for="parked_out-modal-toggle-{{details['id']}}" class="close-btn">X</label>
+            <h5 class="modal-heading">Booking Details</h5>
+
+            <form method="POST"  class="booking-form-horizontal">
+                <input type="hidden" name="form_type" value="release_spot">
+                <input type="text" name="lot_id" value="{{details['li']}}" readonly  hidden >
+            <div class="form-row">
+                <label for="prime_location">Prime Location :</label>
+                <input type="text" name="prime_location" value="{{details['pl']}}" readonly  >
+            </div>
+            <div class="form-row">
+                <label for="spot_number">Spot Number :</label>
+                <input type="text" name="spot_number" value="{{details['sn']}}" readonly  ><br>
+            </div>
+            <div class="form-row">
+                <label for="vehicle_number">Vehichle Number :</label>
+                <input type="text" name="vehicle_number" value="{{details['vn']}}" readonly ><br>
+            </div>
+            <div class="form-row">
+                <label for="parking_time">Parking Time :</label>
+                <input type="text" name="parking_time"  value="{{datetime.fromtimestamp(details['tb']).strftime('%d-%m-%Y %H:%M:%S')}}" readonly><br>
+            </div>
+            <div class="form-row">
+                <label for="release_time">Release Time :</label>
+                <input type="text" name="release_time" value="{{details['tr']}}" readonly ><br>
+            </div>
+            <div class="form-row">    
+                <label for="total_cost">Total Price :</label>
+            <input type="text" name="total_cost" value="{{details['paid_price']}}" readonly  ><br>
+            </div>
+            <div class="form-actions">
+                <label for="parked_out-modal-toggle-{{details['id']}}" class="btn-wide cancel-btn">Cancel</label>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div></td>
+{%endif%}
 
 
 

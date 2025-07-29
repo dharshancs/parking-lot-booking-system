@@ -9,37 +9,58 @@
 <link rel="stylesheet" href="/static/view.css">
 <div class="header" >Parking Lots</div>
 
-<link rel="stylesheet" href="/static/lot_popup.css">
+<link rel="stylesheet" href="/static/popup.css">
 
  {%for lot in lots%}
 <div class="lot-box" style="font-size: 1.25rem; font-family: 'Shadows Into Light', 'Comic Sans MS', cursive; ">
     <h2 style="font-size: 1.5rem;font-family: 'Shadows Into Light', 'Comic Sans MS', cursive; ">{{ lot[1] }}</h2>
     <div class="lot-actions">
 <label for="edit-modal-toggle-{{lot['id']}}" class="edit" style="cursor: pointer;">Edit</label> | <label for="delete-modal-toggle" class="delete" style="cursor: pointer;">Delete</label>
-        <link rel="stylesheet" href="/static/popup.css">
 
 
     <input type="checkbox" id="edit-modal-toggle-{{lot['id']}}" class="modal-toggle" hidden>
 
     <div class="modal">
-        <div class="modal-content" style="font-size: 1.25rem">
+        <div class="modal-content">
             <label for="edit-modal-toggle-{{lot['id']}}" class="close-btn" >X</label>
-            <h5 style="font-size: 1.5rem">Edit Parking lot @{{lot['prime_location']}}</h5>
-            <form method="POST">
-                <input type="text" name="form_type" value="edit_lot">
+<h3 class="modal-heading">Book a parking spot</h3>
+<div class="form-wrapper">
+
+            <form method="POST" class="booking-form-horizontal">
+                                <input type="hidden" name="form_type" value="edit_lot">
+
 
                 <input type="text" name="lot_id" value="{{lot['id']}}" hidden readonly>
-                <input type="text" name="prime_location" value="{{lot['prime_location']}}" required><br>
-                <input type="text" name="address" value="{{lot['address']}}" required><br>
-                <input type="text" name="pincode" value="{{lot['pincode']}}" required><br>
-                <input type="number" name="price" value="{{lot['price']}}" required><br>
-                <input type="number" name="max_no_of_spots" value="{{lot['max_no_of_spots']}}" required><br>
-                <button type="submit" style="font-size: 1.5rem">Update</button>
-                        <label for="edit-modal-toggle-{{lot['id']}}" class="btn btn-secondary cancel-btn">Cancel</label>
+
+<div class="form-row">
+    <label for="prime_location">Prime Location</label>
+                <input type="text" name="prime_location" value="{{lot['prime_location']}}" required>
+                </div>
+<div class="form-row">
+    <label for="address">Address</label>
+                <input type="text" name="address" value="{{lot['address']}}" required>
+</div>
+<div class="form-row">
+    <label for="pincode">Pincode</label>
+                <input type="text" name="pincode" value="{{lot['pincode']}}" required>
+</div>
+<div class="form-row">
+    <label for="price">Price</label>
+                <input type="number" name="price" value="{{lot['price']}}" required>
+</div>
+<div class="form-row">
+    <label for="max_no_of_spots">Max No of Spots in Lot</label>
+                <input type="number" name="max_no_of_spots" value="{{lot['max_no_of_spots']}}" required>
+</div>
+<div class="form-actions">
+
+                <button type="submit" class ="btn-wide">Update</button>
+                        <label for="edit-modal-toggle-{{lot['id']}}" class="btn-wide cancel-btn">Cancel</label>
             </form>
         </div>
+        </div>
     </div>
-
+</div>
     </div>
     <div class="occupancy">(Occupied: )</div>
     <hr>
@@ -77,21 +98,45 @@
     <input type="checkbox" id="modal-toggle" class="modal-toggle" hidden>
 
     <div class="modal">
-        <div class="modal-content" style="font-size: 1.25rem">
+        <div class="modal-content">
             <label for="modal-toggle" class="close-btn" >X</label>
-            <h5 style="font-size: 1.5rem">Create a New Parking Lot</h5>
-            <form method="POST">
+            <h3 class="modal-heading">Create a New Parking Lot</h3>
+        <div class="form-wrapper">            
+            <form method="POST" class="booking-form-horizontal">
                 <input type="hidden" name="form_type" value="create_lot">
-
+<div class="form-row">
+    <label for="prime_location">Prime Location</label>
                 <input type="text" name="prime_location" placeholder="Lot Prime Location Name" required><br>
+</div>
+<div class="form-row">
+    <label for="address">Address</label>
                 <input type="text" name="address" placeholder="Address" required><br>
+</div>
+<div class="form-row">
+
+    <label for="pincode">Pincode</label>
                 <input type="text" name="pincode" placeholder="Pincode" required><br>
+</div>
+<div class="form-row">
+
+    <label for="max_no_of_spots">Number of Spots</label>
                 <input type="number" name="max_no_of_spots" placeholder="Max Spots" required><br>
+</div>
+<div class="form-row">
+
+    <label for="price">Price(per hour)</label>
                 <input type="number" name="price" placeholder="Price per Hour" required><br>
-                <button type="submit" style="font-size: 1.5rem">Create Lot</button>
-                        <label for="modal-toggle" class="btn btn-secondary cancel-btn">Cancel</label>
+</div>
+
+<div class="form-actions">
+                <button type="submit" class="btn-wide">Create Lot</button>
+                        <label for="modal-toggle" class="btn-wide cancel-btn">Cancel</label>
             </form>
+            </div>
         </div>
+        </div>
+        </div>
+        
     </div>
 
 

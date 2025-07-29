@@ -44,6 +44,7 @@ def create_database():
                 timestamp_released DATETIME,
                 vehicle_number TEXT,
                 booking_status TEXT NOT NULL,
+                price INTEGER,
                 FOREIGN KEY(user_id) REFERENCES USERS(id),
                 FOREIGN KEY(spot_number) REFERENCES PARKING_SPOT(spot_number)
                 );
