@@ -38,18 +38,35 @@
     <div class="modal" id="release-modal-{{details['id']}}">
         <div class="modal-content">
             <label for="release-modal-toggle-{{details['id']}}" class="close-btn">X</label>
-            <h5>Release the booked spot</h5>
-            <form method="POST">
+            <h5 class="modal-heading">Release the booked spot</h5>
+            
+            <form method="POST" class="booking-form-horizontal">
                 <input type="hidden" name="form_type" value="release_spot">
                 <input type="text" name="lot_id" value="{{details['li']}}" readonly  hidden >
+            <div class="form-row">
+                <label for="spot_number">Spot Number :</label>
                 <input type="text" name="spot_number" value="{{details['sn']}}" readonly  ><br>
+            </div>
+            <div class="form-row">
+                <label for="vehicle_number">Vehichle Number :</label>
                 <input type="text" name="vehicle_number" value="{{details['vn']}}" readonly ><br>
+            </div>
+            <div class="form-row">
+                <label for="parking_time">Parking Time :</label>
                 <input type="text" name="parking_time"  value="{{datetime.fromtimestamp(details['tb']).strftime('%d-%m-%Y %H:%M:%S')}}" readonly><br>
+            </div>
+            <div class="form-row">
+                <label for="release_time">Release Time :</label>
                 <input type="text" name="release_time" value="{{ datetime.now().strftime('%d-%m-%Y %H:%M:%S') }}" readonly ><br>
-                <input type="text" name="total_cost" value="&#8377;{{ (((datetime.now().timestamp() - details['tb']) /3600 ) * details['price'])  | round(2) }}" readonly  ><br>
-
-                <button type="submit">Release</button>
-                        <label for="release-modal-toggle-{{details['id']}}" class="btn btn-secondary cancel-btn">Cancel</label>
+            </div>
+            <div class="form-row">    
+                <label for="total_cost">Total Price :</label>
+            <input type="text" name="total_cost" value="&#8377;{{ (((datetime.now().timestamp() - details['tb']) /3600 ) * details['price'])  | round(2) }}" readonly  ><br>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-wide">Release</button>
+                        <label for="release-modal-toggle-{{details['id']}}" class="btn-wide cancel-btn">Cancel</label>
+            </div>
             </form>
         </div>
     </div></td>
@@ -130,18 +147,41 @@
     <div class="modal">
         <div class="modal-content">
             <label for="book-modal-toggle-{{lot[0]}}" class="close-btn">X</label>
-            <h5>Book a Parking Spot</h5>
-            <form method="POST">
-                <input type="hidden" name="form_type" value="book_lot">
+<h3 class="modal-heading">Book a parking spot</h3>
+<div class="form-wrapper">
+<form method="POST" class="booking-form-horizontal">
+    <input type="hidden" name="form_type" value="book_lot">
 
-                <input type="text" name="spot_number" value="{%for data in available_slot_data%}{%if data[0]==lot['id']%}{{data[1]}}{%endif%}{%endfor%}" placeholder="Spot Number" readonly><br>
-                <input type="text" name="lot_id" value="{{lot['id']}}" readonly hidden  >
-                <input type="text" name="prime_location" value="{{lot['prime_location']}}" readonly  ><br>
-                <input type="text" name="user_email" value="{{session['email']}}" readonly ><br>
-                <input type="text" name="vehicle_number"  required><br>
-                <button type="submit">Book</button>
-                        <label for="book-modal-toggle-{{lot[0]}}" class="btn btn-secondary cancel-btn">Cancel</label>
-            </form>
+    <div class="form-row">
+        <label for="spot_number">Spot ID:</label>
+        <input type="text" id="spot_number" name="spot_number" 
+            value="{%for data in available_slot_data%}{%if data[0]==lot['id']%}{{data[1]}}{%endif%}{%endfor%}" 
+            readonly>
+    </div>
+
+    <div class="form-row">
+        <label for="lot_id">Lot ID:</label>
+        <input type="text" id="lot_id" name="lot_id" value="{{lot['id']}}" readonly>
+    </div>
+
+    <div class="form-row">
+        <label for="user_email">User ID:</label>
+        <input type="text" id="user_email" name="user_email" value="{{session['email']}}" readonly>
+    </div>
+
+    <div class="form-row">
+        <label for="vehicle_number">Vehicle No:</label>
+        <input type="text" id="vehicle_number" name="vehicle_number" required>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-wide">Reserve</button>
+        <label for="book-modal-toggle-{{lot[0]}}" class="btn-wide cancel-btn">Cancel</label>
+    </div>
+</form>
+</div> 
+
+
         </div>
     </div></td>
                 
