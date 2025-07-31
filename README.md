@@ -18,7 +18,6 @@ This is a simple web application built using Flask, Jinja2, HTML, CSS, and Pytho
 ├── static/ # CSS and static assets
 ├── db.sqlite3 # SQLite database file (if using SQLite)
 ├── requirements.txt # Python package requirements
-├── openapi.yaml # YAML file for API documentation
 └── README.md # This file
 
 
