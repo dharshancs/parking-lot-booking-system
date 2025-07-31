@@ -9,7 +9,7 @@ u_view = Blueprint('base',__name__)
 
 @u_view.route('/')
 def index():
-    return render_template('index.html')
+    return redirect(url_for('base.user_login'))
 
 @u_view.route('/register', methods=['POST','GET'])
 def user_register():
@@ -23,7 +23,7 @@ def user_register():
         curr = conn.cursor()
 
         if not(password == confirm_password):
-            #flash message to be imserted
+            flash("Password do not match","danger")
             conn.close()
             return redirect(url_for('base.user_register'))
         
@@ -31,7 +31,7 @@ def user_register():
         existing_user = curr.fetchone()
 
         if existing_user:
-            #flash message to be imserted
+            flash("Email already registered!. Login or use a different email", "danger")
             conn.close()
             return redirect(url_for('base.user_login'))
         
@@ -47,10 +47,8 @@ def user_login():
     if request.method == 'POST':
         email = request.form['user_email']
         password = request.form['user_password']
-
         conn = conn_database()
         curr = conn.cursor()
-
         curr.execute('SELECT * FROM USERS WHERE email=?',(email,))
         user=curr.fetchone()
         conn.close()
@@ -68,5 +66,7 @@ def user_login():
                 session['email'] = user['email']
                 session['is_admin'] = True
                 return redirect(url_for('admin.admin_home'))
+        else:
+            flash("Incorrect Email or Password","danger")
     return render_template('users/user_login.html')
 

@@ -159,6 +159,6 @@ def user_profile():
 @login_required
 def user_logout():
     session.clear()
-    flash("Profile Updated Successfully","success")
+    flash("Logged Out Successfully","success")
     return redirect(url_for('base.user_login'))
     

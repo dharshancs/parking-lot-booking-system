@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for,session,request,flash
 from functools import wraps
 from .__init__ import conn_database
+import sqlite3
 
 
 
@@ -37,14 +38,18 @@ def admin_home():
                 return(redirect(url_for('admin.admin_home')))
             conn = conn_database()
             curr = conn.cursor()
-
-            curr.execute('INSERT INTO PARKING_LOT (prime_location,price ,address,pincode,max_no_of_spots,no_of_available) VALUES (?,?,?,?,?,?)',(prime_location,price,address,pincode,max_no_of_spots,max_no_of_spots))
-            id = curr.lastrowid
-            for i in range(1,int(max_no_of_spots)+1):
-                spot_name = f"{prime_location} Spot # {i}"
-                curr.execute('INSERT INTO PARKING_SPOT (lot_id,spot_number,status) VALUES (?,?,?)',(id,spot_name,"A"))
-            conn.commit()
-            conn.close()
+            try:
+                curr.execute('INSERT INTO PARKING_LOT (prime_location,price ,address,pincode,max_no_of_spots,no_of_available) VALUES (?,?,?,?,?,?)',(prime_location,price,address,pincode,max_no_of_spots,max_no_of_spots))
+                id = curr.lastrowid
+                for i in range(1,int(max_no_of_spots)+1):
+                    spot_name = f"{prime_location}_{id}_Spot # {i}"
+                    curr.execute('INSERT INTO PARKING_SPOT (lot_id,spot_number,status) VALUES (?,?,?)',(id,spot_name,"A"))
+                conn.commit()
+                conn.close()
+            except sqlite3.IntegrityError:
+                flash("A Parking Lot with this Prime Location Name already exists","danger")
+                conn.close()
+                return redirect(url_for('admin.admin_home'))
             flash("Lot Created","success")
             return redirect(url_for('admin.admin_home'))
         if request_name == 'delete_spot':
@@ -63,6 +68,7 @@ def admin_home():
             curr.execute('SELECT COUNT(*) FROM PARKING_SPOT WHERE lot_id = ? and status ="O"',(request.form['lot_id'],))
             no_occupied = int(curr.fetchone()[0])
             if no_occupied == 0:
+                curr.execute('DELETE FROM PARKING_SPOT WHERE lot_id =?',(request.form['lot_id'],))
                 curr.execute('DELETE FROM PARKING_LOT WHERE id=?',(request.form['lot_id'],))
                 conn.commit()
                 conn.close()
@@ -89,6 +95,7 @@ def admin_home():
                 conn.close()
                 return redirect(url_for('admin.admin_home'))
             if no_occupied == 0 and max_no_of_spots ==0:
+                curr.execute('DELETE FROM PARKING_SPOT WHERE lot_id =?',(lot_id,))
                 curr.execute('DELETE FROM PARKING_LOT WHERE id =?',(lot_id,))
                 conn.close()
                 flash("Lot Deleted since all Spots removed","success")
@@ -115,9 +122,14 @@ def admin_home():
                 conn.close()
                 return redirect(url_for('admin.admin_home'))
             elif max_no_of_spots>=previous_total_spots:
-                for i in range(max_no_of_spots-previous_total_spots):
+                curr.execute('SELECT spot_number FROM PARKING_SPOT WHERE lot_id = ?', (lot_id,))
+                existing_spots = curr.fetchall()
+                last_spot_num = max([int(spot[0].split('#')[-1].strip()) for spot in existing_spots if '#' in spot[0]],
+                default=0
+                )
+                for i in range(last_spot_num+1,last_spot_num+(max_no_of_spots-previous_total_spots)+1):
                     j = previous_total_spots
-                    spot_name = f"{prime_location} Spot # {j}"
+                    spot_name = f"{prime_location}_{lot_id}_Spot # {i}"
                     curr.execute('INSERT INTO PARKING_SPOT (lot_id,spot_number,status) VALUES (?,?,?)',(lot_id,spot_name,'A'))
                 conn.commit()
                 flash("Lot Updated","success")

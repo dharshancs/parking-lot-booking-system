@@ -20,7 +20,7 @@ def create_database():
     curr.execute('''
                 CREATE  TABLE IF NOT EXISTS PARKING_LOT(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                prime_location TEXT NOT NULL,
+                prime_location TEXT NOT NULL UNIQUE,
                 price INTEGER ,
                 address TEXT NOT NULL,
                 pincode TEXT NOT NULL,
