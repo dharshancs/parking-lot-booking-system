@@ -8,25 +8,25 @@
 
 
 
-</div>
+
 <div class="header">Registed Users</div>
 
-<table class="table">
-  <thead>
+<table class="table table-bordered table-hover table-striped mt-3">
+  <thead class="table-dark">
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Username</th>
-      <th scope="col">Name</th>
-      <th scope="col">Address</th>
+      <th scope="col" class="text-center" style="font-family:'Montserrat', sans-serif;">#</th>
+      <th scope="col" class="text-center" style="font-family:'Montserrat', sans-serif;">Username</th>
+      <th scope="col" class="text-center" style="font-family:'Montserrat', sans-serif;">Name</th>
+      <th scope="col" class="text-center" style="font-family:'Montserrat', sans-serif;">Address</th>
     </tr>
   </thead>
   <tbody>
     {% for user in users %}
     <tr>
         <th scope="row">{{user[0]}}</th>
-        <td>{{user[1]}}</td>
-        <td>{{user[2]}}</td>
-        <td>{{user[3]}}</td>
+        <td class="text-center" style="font-family:'Montserrat', sans-serif;">{{user[1]}}</td>
+        <td class="text-center" style="font-family:'Montserrat', sans-serif;">{{user[2]}}</td>
+        <td class="text-center" style="font-family:'Montserrat', sans-serif;">{{user[3]}}</td>
     </tr>
     {%endfor%}
   </tbody>

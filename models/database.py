@@ -39,6 +39,7 @@ def create_database():
     curr.execute('''CREATE TABLE IF NOT EXISTS BOOKING_DETAILS(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
+                lot_id INTEGER NOT NULL,
                 spot_number TEXT NOT NULL,
                 timestamp_booked DATETIME,
                 timestamp_released DATETIME,
@@ -46,7 +47,8 @@ def create_database():
                 booking_status TEXT NOT NULL,
                 price INTEGER,
                 FOREIGN KEY(user_id) REFERENCES USERS(id),
-                FOREIGN KEY(spot_number) REFERENCES PARKING_SPOT(spot_number)
+                FOREIGN KEY(lot_id) REFERENCES PARKING_LOT(id),
+                FOREIGN KEY(lot_id, spot_number) REFERENCES PARKING_SPOT(lot_id, spot_number)
                 );
                 ''')
     conn.commit()

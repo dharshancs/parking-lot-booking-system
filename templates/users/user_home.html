@@ -65,7 +65,12 @@
             </div>
             <div class="form-row">    
                 <label for="total_cost">Total Price :</label>
-            <input type="text" name="total_cost" value="&#8377;{{ (((datetime.now().timestamp() - details['tb']) /3600 ) * details['price'])  | round(2) }}" readonly  ><br>
+                    <input type="text" id="total_cost" 
+           value="₹{{ (((datetime.now().timestamp() - details['tb']) / 3600 ) * details['price']) | round(2) }}" 
+           readonly>
+                    <input type="hidden" name="total_cost" 
+           value="{{ (((datetime.now().timestamp() - details['tb']) / 3600 ) * details['price']) | round(2) }}">
+
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn-wide">Release</button>
@@ -103,11 +108,11 @@
             </div>
             <div class="form-row">
                 <label for="release_time">Release Time :</label>
-                <input type="text" name="release_time" value="{{details['tr']}}" readonly ><br>
+                <input type="text" name="release_time" value="{{datetime.fromtimestamp(details['tr']).strftime('%d-%m-%Y %H:%M:%S')}}" readonly ><br> 
             </div>
             <div class="form-row">    
                 <label for="total_cost">Total Price :</label>
-            <input type="text" name="total_cost" value="{{details['paid_price']}}" readonly  ><br>
+            <input type="text" name="total_cost" value="₹{{details['paid_price']}}" readonly  ><br>
             </div>
             <div class="form-actions">
                 <label for="parked_out-modal-toggle-{{details['id']}}" class="btn-wide cancel-btn">Cancel</label>
@@ -139,7 +144,7 @@
 <form method="POST">
 <input type="hidden" name="form_type" value="search_parking">
 <div style="display: flex; align-items: center; justify-content: center; gap: 0px; margin: 20px 0;">
-  <div style="color: red; font-family: 'Comic Sans MS', 'Patrick Hand', cursive; font-size: 24px; font-weight: bold;margin-right: 10px;">
+  <div style="color: red; font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: bold;margin-right: 10px;">
     Search Parking @location/Pincode
   </div>
 <div style="width: fit-content; text-align: left; width: fit-content; text-align: left;">
@@ -185,7 +190,13 @@
                 <td>{{lot['prime_location']}}</td>
                 <td>{{lot[3]}}</td>
                 <td>{{lot['no_of_available']}}</td>
+                
+                {%if lot['no_of_available'] < 1%}
+                <td><label for="book-modal-toggle-{{lot[0]}}" class="btn btn-primary-book" style="pointer-events: none; opacity: 0.6; cursor: not-allowed; background-color: red;">Book</label>
+
+                {%else%}
                 <td><label for="book-modal-toggle-{{lot[0]}}" class="btn btn-primary-book">Book</label>
+                    {%endif%}
                         <link rel="stylesheet" href="/static/popup.css">
 
 

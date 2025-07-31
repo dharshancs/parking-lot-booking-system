@@ -1,5 +1,5 @@
 .header {
-    font-family: 'Comic Sans MS', 'Patrick Hand', cursive;
+    font-family: 'Montserrat', sans-serif;
     font-size: 1.62rem;
     color: #0c2d9b;
 
@@ -29,12 +29,13 @@
     padding: 10px;
     width: fit-content;
     margin: 20px auto;
-    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .styled-table {
     border-collapse: collapse;
     width: 100%;
+    table-layout: auto;
 }
 
 .styled-table th,
@@ -65,7 +66,7 @@
     border-radius: 6px;
     padding: 5px 12px;
     font-size: 1rem;
-    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-family: 'Montserrat', sans-serif;
     cursor: pointer;
 }
 
@@ -81,7 +82,7 @@
     border-radius: 6px;
     padding: 5px 12px;
     font-size: 1rem;
-    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -97,7 +98,7 @@
     border-radius: 6px;
     padding: 5px 12px;
     font-size: 1rem;
-    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -113,7 +114,7 @@
     border-radius: 6px;
     padding: 5px 12px;
     font-size: 1rem;
-    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -129,7 +130,7 @@
     border-radius: 6px;
     padding: 5px 12px;
     font-size: 1rem;
-    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -138,4 +139,12 @@
     background-color: #00c3ff;
     border: 2px solid #ee7f00;
     color: #000000;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.display-6 {
+    font-weight: 700;
 }

@@ -7,16 +7,20 @@
 
 
 {% block rightside %} 
-<li class="nav-item"><a class="nav-link" href="/user/home" style="color: #000000;font-weight: bold;">Home</a></li>
-<li class="nav-item"><a class="nav-link" href="/user/summary" style="color: #990066;font-weight: bold;">Summary</a></li>
-<li class="nav-item"><a class="nav-link" href="/user/logout" style="color: #990066;font-weight: bold;">logout</a></li>
 
 {% endblock %}
 
-{%block corner%}
-<li class="nav-item"><a class="nav-link" href="/user/edit_profile" style="color: #0881f3;font-weight: bold;">Edit Profile</a></li>
 
-{%endblock%}
+
+{% block corner %}
+<div class="d-flex ms-auto" style="gap: 10px; font-family: 'Montserrat', sans-serif; ">
+  <a href="/user/home" class="btn" style="background-color: #2a55e5; color: white; padding: 8px 20px; border-radius: 8px; font-size: 1rem; text-decoration: none;">Home</a>
+  <a href="/user/summary" class="btn" style="background-color: #2a55e5; color: white; padding: 8px 20px; border-radius: 8px; font-size: 1rem; text-decoration: none;">Summary</a>
+  <a href="/user/edit_profile" class="btn" style="background-color: #2a55e5; color: white; padding: 8px 20px; border-radius: 8px; font-size: 1rem; text-decoration: none;">Profile</a>
+  <a href="/user/logout" class="btn" style="background-color: #2a55e5; color: white; padding: 8px 20px; border-radius: 8px; font-size: 1rem;">Logout</a>
+</div>
+{% endblock %}
+
 {% block content %}
     <h1 class="text-center">Welcome to the Parking Lot Booking App!</h1>
     <p class="text-center">Book slots easily from your device.</p>

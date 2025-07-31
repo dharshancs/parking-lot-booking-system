@@ -6,7 +6,6 @@
 
 
 {% block rightside %} 
-<li class="nav-item"><a class="nav-link" href="/admin/home" style="color: #000000;font-weight: bold;">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="/admin/users" style="color: #000000;font-weight: bold;">Users</a></li>
 <li class="nav-item"><a class="nav-link" href="/admin/search" style="color: #000000;font-weight: bold;">Search</a></li>
 <li class="nav-item"><a class="nav-link" href="/admin/summary" style="color: #000000;font-weight: bold;">Summary</a></li>
@@ -15,7 +14,16 @@
 {% endblock %}
 
 {%block corner%}
-<li class="nav-item"><a class="nav-link" href="/admin/edit_profile" style="color: #0881f3;font-weight: bold;">Edit Profile</a></li>
+
+<div class="d-flex ms-auto">
+  <a href="/admin/home" class="btn btn-outline-dark mx-1">Home</a>
+  <a href="/admin/users" class="btn btn-outline-purple mx-1" style="color: #000000; border-color: #003fc7;">Users</a>
+  <a href="/admin/search" class="btn btn-outline-purple mx-1" style="color: #000000; border-color: #003fc7;">Search</a>
+  <a href="/admin/summary" class="btn btn-outline-purple mx-1" style="color: #000000; border-color: #003fc7;">Summary</a>
+  <a href="/admin/edit_profile" class="btn btn-outline-purple mx-1" style="color: #000000; border-color: #003fc7;">Profile</a>
+  <a href="/admin/logout" class="btn btn-outline-purple mx-1" style="color: #000000; border-color: #003fc7;">Logout</a>
+
+</div>
 {% endblock %}
 
 {% block content %}

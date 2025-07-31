@@ -12,10 +12,10 @@
 <link rel="stylesheet" href="/static/popup.css">
 
  {%for lot in lots%}
-<div class="lot-box" style="font-size: 1.25rem; font-family: 'Shadows Into Light', 'Comic Sans MS', cursive; ">
-    <h2 style="font-size: 1.5rem;font-family: 'Shadows Into Light', 'Comic Sans MS', cursive; ">{{ lot[1] }}</h2>
+<div class="lot-box" style="margin-top: 40px; text-align: center; ">
+    <h2 style="font-size: 1.5rem;font-family: 'Montserrat', sans-serif ">{{ lot[1] }}</h2>
     <div class="lot-actions">
-<label for="edit-modal-toggle-{{lot['id']}}" class="edit" style="cursor: pointer;">Edit</label> | <label for="delete-modal-toggle" class="delete" style="cursor: pointer;">Delete</label>
+<label for="edit-modal-toggle-{{lot['id']}}" class="edit" style="cursor: pointer;">Edit</label> | <label for="delete-modal-toggle-{{lot['id']}}" class="delete" style="cursor: pointer;">Delete</label>
 
 
     <input type="checkbox" id="edit-modal-toggle-{{lot['id']}}" class="modal-toggle" hidden>
@@ -23,7 +23,7 @@
     <div class="modal">
         <div class="modal-content">
             <label for="edit-modal-toggle-{{lot['id']}}" class="close-btn" >X</label>
-<h3 class="modal-heading">Book a parking spot</h3>
+<h3 class="modal-heading">Update Parking Lot</h3>
 <div class="form-wrapper">
 
             <form method="POST" class="booking-form-horizontal">
@@ -46,11 +46,11 @@
 </div>
 <div class="form-row">
     <label for="price">Price</label>
-                <input type="number" name="price" value="{{lot['price']}}" required>
+                <input type="text" name="price" value="{{lot['price']}}" required>
 </div>
 <div class="form-row">
-    <label for="max_no_of_spots">Max No of Spots in Lot</label>
-                <input type="number" name="max_no_of_spots" value="{{lot['max_no_of_spots']}}" required>
+    <label for="max_no_of_spots">Total Spots in Lot</label>
+                <input type="text" name="max_no_of_spots" value="{{lot['max_no_of_spots']}}" required>
 </div>
 <div class="form-actions">
 
@@ -61,16 +61,70 @@
         </div>
     </div>
 </div>
+
     </div>
-    <div class="occupancy">(Occupied: )</div>
+
+
+       <input type="checkbox" id="delete-modal-toggle-{{lot['id']}}" class="modal-toggle" hidden>
+
+    <div class="modal" >
+        <div class="modal-content">
+            <label for="delete-modal-toggle-{{lot['id']}}" class="close-btn" >X</label>
+<h3 class="modal-heading">Delete Parking Lot</h3>
+<div class="form-wrapper">
+
+            <form method="POST" class="booking-form-horizontal">
+                                <input type="hidden" name="form_type" value="delete_lot">
+
+
+                <input type="text" name="lot_id" value="{{lot['id']}}" hidden readonly>
+
+<div class="form-row">
+    <label for="prime_location">Prime Location</label>
+                <input type="text" name="prime_location" value="{{lot['prime_location']}}" readonly required>
+                </div>
+<div class="form-row">
+    <label for="address">Address</label>
+                <input type="text" name="address" value="{{lot['address']}}" readonly required>
+</div>
+<div class="form-row">
+    <label for="pincode">Pincode</label>
+                <input type="text" name="pincode" value="{{lot['pincode']}}" readonly required>
+</div>
+<div class="form-row">
+    <label for="price">Price</label>
+                <input type="text" name="price" value="{{lot['price']}}" readonly required>
+</div>
+<div class="form-row">
+    <label for="max_no_of_spots">Total Spots in Lot</label>
+                <input type="text" name="max_no_of_spots" value="{{lot['max_no_of_spots']}}" readonly required>
+</div>
+<div class="form-actions">
+
+                <button type="submit" class ="btn-wide">Delete Lot</button>
+                        <label for="delete-modal-toggle-{{lot['id']}}" class="btn-wide cancel-btn">Cancel</label>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="occupancy">
+  <span style="color: red;">Occupied: {{ int(lot['max_no_of_spots']) - int(lot['no_of_available']) }}</span>
+  <span style="color: black;"> | </span>
+  <span style="color: green;">Available: {{ int(lot['no_of_available']) }}</span>
+</div>
     <hr>
 
     <div class="spot-grid">
         {% for spotss in spots %}
         {%for spot in spotss%}
         {%if spot['lot_id']== lot['id']%}
-            <label for="modal-{{ spot[0] }}" class="spot {% if spot[3] == 'A' %}available{% else %}occupied{% endif %}">
-                {{ spot[3] }}
+        <div class="lot lot-actions">
+            <label for="modal-{{ spot[0] }}" class="spot {% if spot['status'] == 'A' %}available{% else %}occupied{% endif %}">
+                {{ spot['status'] }}
             </label>
 
             <input type="checkbox" id="modal-{{ spot[0] }}" class="modal-toggle" hidden>
@@ -78,11 +132,88 @@
             <div class="modal">
                 <div class="modal-content">
                     <label for="modal-{{ spot[0] }}" class="close-btn">X</label>
-                    <h4>{{ spot['spot_number'] }}</h4>
-                    <p>Status: {{ spot['status']}}</p>
-                    <p>{{ spot['status'] }}</p>
+                    <h3 class="modal-heading">View/Delete Parking Spot</h3>
+                        <div class="form-wrapper">
+
+                        <form method="POST" class="booking-form-horizontal">
+                        <input type="hidden" name="form_type" value="delete_spot"> 
+                        <input type="text" name="spot_id" value="{{spot['id']}}"  hidden readonly>
+                        <input type="text" name="lot_id" value="{{spot['lot_id']}}" hidden>
+                        <div class="form-row">
+                            <label for="spot_number">Spot Number</label>
+                            <input type="text" name="spot_number" value="{{spot['spot_number']}}" required readonly>
+                            
+                        </div>
+                        <div class="form-row">
+                            <label for="status">Status</label>
+                            <label for="modal-{{ spot[0] }}-status" label for="modal-{{ spot[0] }}" class="spot_status {% if spot['status'] == 'A' %}available{% else %}occupied{% endif %}" style="cursor: pointer;">{{ spot['status'] }}</label>                 
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class ="btn-wide"{%if spot['status'] == 'O'%} hidden {%else%} {%endif%}>Delete</button>
+                            <label for="modal-{{ spot[0] }}" class="btn-wide cancel-btn">Close</label>
+                        
+                        </div>
+                        </form>
+                </div>
                 </div>
             </div>
+        </div>
+        <input type="checkbox" id="modal-{{ spot[0] }}-status" class="modal-toggle" hidden>
+
+<div class="modal">
+    <div class="modal-content">
+        <label for="modal-{{ spot[0] }}-status" class="close-btn">X</label>
+        <h3 class="modal-heading">Spot Booking Details</h3>
+        <div class="form-wrapper">
+            <form class="booking-form-horizontal">
+
+                        <div class="form-row">
+                            <input type="text" name="lot_id" value="{{lot['id']}}" required readonly hidden>
+                            
+                        </div>
+                        <div class="form-row">
+                            <label for="prime_location">Prime Location</label>
+                            <input type="text" name="prime_location" value="{{lot['prime_location']}}" required readonly>
+                        </div>
+                        <div class="form-row">
+                            <label for="spot_number">Spot Number</label>
+                            <input type="text" name="spot_number" value="{{spot['spot_number']}}" required readonly>
+                        </div>
+                        <div class="form-row">
+                            <label for="email">Username</label>
+                            <input type="text" name="email" value="{{spot['email']}}" required readonly>
+                        </div>
+                        <div class="form-row">
+                            <label for="vehicle_number">Vehicle Number</label>
+                            <input type="text" name="vehicle_number" value="{{spot['vn']}}" required readonly>
+                        </div>
+                        <div class="form-row">
+                            <label for="timestamp_booking">Time of Parking</label>
+                            <input type="text" name="timestamp_booking" value="{{spot['tb']}}" required readonly>
+                        </div>
+                         <div class="form-row">
+                            <label for="estimated_cost">Estimated Cost</label>
+                            <input type="text" name="estimated_cost" value="{{spot['tb']}}" required readonly>
+                        </div>
+
+
+            </form>
+            
+            
+            <div class="form-actions">
+
+                            <label for="modal-{{ spot[0] }}-status" class="btn-wide cancel-btn">Close</label>
+                        
+                        
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
         {%endif%}
         {% endfor %}
         {%endfor%}

@@ -1,4 +1,68 @@
-<!-- extends base template and displays admin interface-->
+{% extends "admin/admin_base.html" %}
+{% block title %}Admin Summary{% endblock %}
+{% block leftside %}Admin Dashboard{% endblock %}
+{% block content %}
 
-{% extends 'admin/admin_base.html' %}
-{% block title %} Parking App -Admin {% endblock %}
+
+<h2 class="text-center mb-4">Admin Summary Dashboard</h2>
+
+<!-- Stats Tiles -->
+<div class="row text-center mb-4">
+  {% for name, value in [("Users", total_users), ("Admins", total_admins), ("Lots", total_lots), ("Spots", total_spots), ("Available", available_spots), ("Total Bookings", booked_spots), ("Active Bookings", active_bookings)] %}
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-sm bg-light border-success">
+      <div class="card-body">
+        <h5 class="card-title text-success">{{ name }}</h5>
+        <h3>{{ value }}</h3>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<h4 class="mt-5">Lot-wise Occupancy</h4>
+<table class="table table-bordered table-striped text-center">
+  <thead class="table-success text-center">
+    <tr>
+      <th>ID</th><th>Location</th><th>Total</th><th>Available</th><th>Occupied</th><th>Price</th>
+    </tr>
+  </thead>
+  <tbody class="text-center">
+    {% for lot in lot_data %}
+    <tr>
+      <td>{{ lot[0] }}</td>
+      <td>{{ lot[1] }}</td>
+      <td>{{ lot[2] }}</td>
+      <td>{{ lot[3] }}</td>
+      <td>{{ lot[2] - lot[3] }}</td>
+      <td>₹{{ lot[4] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+<h4 class="mt-5">Recent Bookings</h4>
+<div class="table-responsive">
+<table class="table table-hover table-bordered text-center">
+  <thead class="table-primary text-center">
+    <tr>
+      <th>User</th><th>Vehicle</th><th>Spot</th><th>Lot ID</th><th>Booked At</th><th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in recent_bookings %}
+    <tr>
+      <td>{{ b[0] }}</td>
+      <td>{{ b[1] }}</td>
+      <td>{{ b[2] }}</td>
+      <td>{{ b[5] }}</td>
+      <td>{{ b[3] }}</td>
+      <td><span class="badge bg-{{ 'success' if b[4] == 'open' else 'danger' }}">{{ b[4] }}</span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock %}

@@ -1,4 +1,66 @@
-<!-- extends base template and displays admin interface-->
+    {% extends 'admin/admin_base.html' %}
 
-{% extends 'admin/admin_base.html' %}
-{% block title %} Parking App -Admin {% endblock %}
+    {% block title %}Admin Search{% endblock %}
+
+    {% block content %}
+
+    <div class="container mt-4" >
+        <h2 class="mb-4">Admin Search</h2>
+
+        
+    <form method="POST"> 
+            <input type="hidden" name="form_type" value="admin_search">
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col-md-3">
+                    <label for="field"  class="form-label">Search By</label>
+                    <select class="form-select" name="field" required>
+                        <option value="email">User Email</option>
+                        <option value="prime_location">Parking Lot Prime Location</option>
+                        <option value="spot_number">Parking Spot Number</option>
+                        <option value="vehicle_number">Vehicle Number</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="value" class="form-label">Value</label>
+                    <input type="text" class="form-control" name="value" placeholder="Enter value to search" required>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </div>
+        </form>
+
+        {% if results %}
+    <h4 class="mt-4">Search Results</h4>
+    <table class="table table-bordered table-hover table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                {% for col in columns %}
+                <th class="text-center" style="font-family:'Montserrat', sans-serif;">{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr 
+                {% if 'Spot Status' in columns %}
+                    class="{% if row[columns.index('Spot Status')] == 'Available' %}table-success{% 
+                                elif row[columns.index('Spot Status')] == 'Parked Out' %}table-success{% 
+                                elif row[columns.index('Spot Status')] == 'Occupied' %}table-danger{% 
+                                elif row[columns.index('Spot Status')] == 'Left' %}table-warning{% 
+                                else %}table-secondary{% endif %}"
+                {% endif %}
+            >
+                {% for item in row %}
+                <td class="text-center" style="font-family:'Montserrat', sans-serif;">{{ item if item else '-' }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+        {% elif results is not none %}
+        <div class="alert alert-warning mt-3">No results found.</div>
+        {% endif %}
+    </div>
+    {% endblock %}
