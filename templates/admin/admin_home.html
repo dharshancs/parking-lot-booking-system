@@ -190,12 +190,9 @@
                         </div>
                         <div class="form-row">
                             <label for="timestamp_booking">Time of Parking</label>
-                            <input type="text" name="timestamp_booking" value="{{spot['tb']}}" required readonly>
+                            <input type="text" name="timestamp_booking" value="{% if spot['tb'] %}{{datetime.fromtimestamp(spot['tb']).strftime('%d-%m-%Y %H:%M:%S')}}{% else %}Not Booked{% endif %}" required readonly>
                         </div>
-                         <div class="form-row">
-                            <label for="estimated_cost">Estimated Cost</label>
-                            <input type="text" name="estimated_cost" value="{{spot['tb']}}" required readonly>
-                        </div>
+                      
 
 
             </form>

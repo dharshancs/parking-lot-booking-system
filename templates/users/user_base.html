@@ -12,12 +12,25 @@
 
 
 
+
 {% block corner %}
+
+<style>
+  .upper-butten {
+    background-color: #2a55e5;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-decoration: none;
+  }
+</style>
+
 <div class="d-flex ms-auto" style="gap: 10px; font-family: 'Montserrat', sans-serif; ">
-  <a href="/user/home" class="btn" style="background-color: #2a55e5; color: white; padding: 8px 20px; border-radius: 8px; font-size: 1rem; text-decoration: none;">Home</a>
-  <a href="/user/summary" class="btn" style="background-color: #2a55e5; color: white; padding: 8px 20px; border-radius: 8px; font-size: 1rem; text-decoration: none;">Summary</a>
-  <a href="/user/edit_profile" class="btn" style="background-color: #2a55e5; color: white; padding: 8px 20px; border-radius: 8px; font-size: 1rem; text-decoration: none;">Profile</a>
-  <a href="/user/logout" class="btn" style="background-color: #2a55e5; color: white; padding: 8px 20px; border-radius: 8px; font-size: 1rem;">Logout</a>
+  <a href="/user/home" class="upper-butten" >Home</a>
+  <a href="/user/summary" class="upper-butten" >Summary</a>
+  <a href="/user/edit_profile" class="upper-butten" >Profile</a>
+  <a href="/user/logout" class="upper-butten" >Logout</a>
 </div>
 {% endblock %}
 

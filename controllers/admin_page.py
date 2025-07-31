@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for,session,request,
 from functools import wraps
 from .__init__ import conn_database
 import sqlite3
+from datetime import datetime
 
 
 
@@ -141,10 +142,10 @@ def admin_home():
     lots = curr.fetchall()
     spots=[]
     for lot in lots:
-        curr.execute('SELECT PS.id,PS.lot_id,PS.spot_number,PS.status,BD.id as bid,BD.user_id as email,BD.spot_number as sn,BD.timestamp_booked as tb,BD.vehicle_number as VN FROM PARKING_SPOT PS LEFT JOIN (SELECT * FROM BOOKING_DETAILS WHERE booking_status ="open" GROUP BY lot_id,spot_number) AS BD ON BD.spot_number = PS.spot_number AND BD.lot_id = PS.lot_id WHERE PS.lot_id =?',(lot['id'],))
+        curr.execute('SELECT PS.id,PS.lot_id,PS.spot_number,PS.status,BD.id as bid,U.email as email,BD.spot_number as sn,BD.timestamp_booked as tb,BD.vehicle_number as VN FROM PARKING_SPOT PS LEFT JOIN (SELECT * FROM BOOKING_DETAILS WHERE booking_status ="open" GROUP BY lot_id,spot_number) AS BD ON BD.spot_number = PS.spot_number AND BD.lot_id = PS.lot_id LEFT JOIN USERS U ON U.id=BD.user_id WHERE PS.lot_id =?',(lot['id'],))
         spots.append(curr.fetchall())
     conn.close()
-    return render_template('admin/admin_home.html',lots=lots, spots=spots)
+    return render_template('admin/admin_home.html',lots=lots, spots=spots,datetime=datetime)
 
 @admin_view.route('/users')
 @admin_required
@@ -175,7 +176,7 @@ def admin_search():
         if field == 'spot_number':
             curr.execute(f"SELECT P.id as 'Parking Spot ID',P.spot_number as 'Spot Number',PL.prime_location as 'Lot Prime Location',PL.address as 'Lot Address',PL.pincode as 'Lot Pincode',CASE WHEN P.status='O' THEN 'Occupied' WHEN P.status = 'A' THEN 'Available' ELSE 'Unkown' END as 'Spot Status' FROM PARKING_SPOT P JOIN PARKING_LOT PL ON PL.id = P.lot_id WHERE {field} LIKE ? ",('%'+value+'%',))
         if field == 'vehicle_number':
-            curr.execute(f"SELECT B.id as 'Booking ID',B.vehicle_number as 'Vehicle Number',U.email as 'User Email',U.name as 'User Name',B.spot_number as 'Sot Number',PL.prime_location as 'Lot Prime Location Name',CASE WHEN B.timestamp_booked IS NOT NULL THEN datetime(B.timestamp_booked,'unixepoch') ELSE '-' END AS 'Parking Time', CASE WHEN B.timestamp_released IS NOT NULL AND B.timestamp_released !='' THEN B.timestamp_released ELSE '-' END AS 'Release Time',CASE WHEN B.booking_status='open' THEN 'Occupied' WHEN B.booking_status = 'closed' THEN 'Parked Out' ELSE 'Unkown' END as 'Spot Status' FROM BOOKING_DETAILS B JOIN PARKING_SPOT P ON P.spot_number = B.spot_number AND P.lot_id = B.lot_id JOIN PARKING_LOT PL ON PL.id=P.lot_id  JOIN USERS U on U.id=B.user_id WHERE {field} LIKE ? ",('%'+value+'%',))
+            curr.execute(f"SELECT B.id as 'Booking ID',B.vehicle_number as 'Vehicle Number',U.email as 'User Email',U.name as 'User Name',B.spot_number as 'Spot Number',PL.prime_location as 'Lot Prime Location Name',CASE WHEN B.timestamp_booked IS NOT NULL THEN datetime(B.timestamp_booked,'unixepoch') ELSE '-' END AS 'Parking Time', CASE WHEN B.timestamp_released IS NOT NULL AND B.timestamp_released !='' THEN B.timestamp_released ELSE '-' END AS 'Release Time',CASE WHEN B.booking_status='open' THEN 'Occupied' WHEN B.booking_status = 'closed' THEN 'Parked Out' ELSE 'Unkown' END as 'Spot Status' FROM BOOKING_DETAILS B JOIN PARKING_SPOT P ON P.spot_number = B.spot_number AND P.lot_id = B.lot_id JOIN PARKING_LOT PL ON PL.id=P.lot_id  JOIN USERS U on U.id=B.user_id WHERE {field} LIKE ? ",('%'+value+'%',))
         
         results = curr.fetchall()
         if results:

@@ -38,7 +38,7 @@ def user_register():
         curr.execute('INSERT INTO USERS (name,email,password) VALUES (?,?,?)',(name,email,generate_password_hash(password)))
         conn.commit()
         conn.close()
-
+        flash("Account Registered Succesfully","success")
         return redirect(url_for('base.user_login'))
     return render_template('users/user_register.html')
 
