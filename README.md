@@ -10,15 +10,7 @@ This is a simple web application built using Flask, Jinja2, HTML, CSS, and Pytho
 - API routes to fetch and post data
 - Clean and responsive frontend using HTML/CSS
 
-## 📁 Project Structure
-/project-root
-│
-├── app.py # Main Flask app with all route definitions
-├── templates/ # Contains HTML files (Jinja2 templates)
-├── static/ # CSS and static assets
-├── db.sqlite3 # SQLite database file (if using SQLite)
-├── requirements.txt # Python package requirements
-└── README.md # This file
+
 
 
 ## 🛠 Technologies Used
@@ -27,7 +19,7 @@ This is a simple web application built using Flask, Jinja2, HTML, CSS, and Pytho
 - Jinja2
 - HTML/CSS
 - Python
-- SQLite (or any DB you’re using)
+- SQLite 
 
 ## 🚀 How to Run the App
 
@@ -44,3 +36,5 @@ pip install -r requirements.txt
 Run the app:
 
 python app.py
+
+app opens in localhost
