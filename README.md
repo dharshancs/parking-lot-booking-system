@@ -11,4 +11,37 @@ This is a simple web application built using Flask, Jinja2, HTML, CSS, and Pytho
 - Clean and responsive frontend using HTML/CSS
 
 ## 📁 Project Structure
+/project-root
+│
+├── app.py # Main Flask app with all route definitions
+├── templates/ # Contains HTML files (Jinja2 templates)
+├── static/ # CSS and static assets
+├── db.sqlite3 # SQLite database file (if using SQLite)
+├── requirements.txt # Python package requirements
+├── openapi.yaml # YAML file for API documentation
+└── README.md # This file
 
+
+## 🛠 Technologies Used
+
+- Flask
+- Jinja2
+- HTML/CSS
+- Python
+- SQLite (or any DB you’re using)
+
+## 🚀 How to Run the App
+
+1. Clone this repo and navigate to the folder:
+   ```bash
+   git clone <repo-url>
+   cd <project-folder>
+Create a virtual environment and install dependencies:
+
+python -m venv venv
+source venv/bin/activate     # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+Run the app:
+
+python app.py
