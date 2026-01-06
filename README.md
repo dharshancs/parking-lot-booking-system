@@ -5,6 +5,10 @@ Built with Flask using a modular architecture, role-based access control, and a 
 
 This project is intended to demonstrate backend design, CRUD-heavy workflows, and system-level thinking.
 
+> **Note:** This repository represents the initial version of the system.  
+> A more advanced and extended implementation is available here:  
+> https://github.com/dharshancs/parking-lot-booking-system-v2
+
 ---
 
 ## 📌 Project Overview
@@ -149,6 +153,7 @@ Password: admin
 * Booking lifecycle management
 * Admin dashboards and analytics
 * Clean separation of logic and presentation
+* Foundation for a more advanced system (extended in v2 with async jobs and richer dashboards)
 
 ---
 
@@ -168,6 +173,14 @@ Password: admin
 **Dharshan C S**
 IIT Madras – BS Data Science
 Aspiring Software Engineer
+
+---
+## 🔁 Project Evolution
+
+This project was later extended into a more feature-complete system with background processing,
+enhanced admin analytics, and a decoupled frontend architecture.
+
+👉 v2 Repository: https://github.com/dharshancs/parking-lot-booking-system-v2
 
 ---
 
