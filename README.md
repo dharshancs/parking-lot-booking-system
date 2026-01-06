@@ -3,7 +3,7 @@
 A full-stack web application for managing parking lots and real-time slot bookings.
 Built with Flask using a modular architecture, role-based access control, and a relational database.
 
-This project was developed as part of the **IIT Madras BS – Data Science** program and is intended to demonstrate backend design, CRUD-heavy workflows, and system-level thinking.
+This project is intended to demonstrate backend design, CRUD-heavy workflows, and system-level thinking.
 
 ---
 
@@ -96,7 +96,7 @@ This ensures data consistency across the system.
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/dharshancs/23f3004028.git
 cd parking-lot-booking
 ```
 
