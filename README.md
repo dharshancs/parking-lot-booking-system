@@ -96,7 +96,7 @@ This ensures data consistency across the system.
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/dharshancs/23f3004028.git
+git clone https://github.com/dharshancs/parking-lot-booking-system.git
 cd parking-lot-booking
 ```
 
